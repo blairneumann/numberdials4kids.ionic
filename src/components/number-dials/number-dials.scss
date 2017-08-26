@@ -1,0 +1,57 @@
+number-dials {
+  $color-bkgd: #FFFFFF;
+  $color-fore: #000000;
+  $color-warning: #FF0000;
+
+  .number-group {
+    text-align: center;
+  }
+
+  number-dial {
+    display: inline-block;
+  }
+
+  .control {
+    display: inline-block;
+    border: 1px solid $color-fore;
+    padding: 0.5em;
+    margin: 0 0.5em 1em 0.5em;
+    width: 4em;
+    box-sizing: content-box;
+  }
+
+  .control:active {
+    background-color: darken($color-bkgd, 10%);
+    border: 1px solid $color-fore;
+  }
+
+  .control.disabled:active {
+    background-color: lighten($color-warning, 40%);
+    border: 1px solid $color-warning;
+  }
+
+  .number-dial {
+    display: inline-block;
+    margin: 1em;
+    width: 48px;
+  }
+
+  .increment, .decrement {
+    text-align: center;
+    color: lighten($color-fore, 80%);
+  }
+
+  .increment:active, .decrement:active {
+    color: $color-fore;
+  }
+
+  .increment.disabled:active, .decrement.disabled:active {
+    color: $color-warning;
+  }
+
+  .value {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 4.5em;
+    text-align: center;
+  }
+}
