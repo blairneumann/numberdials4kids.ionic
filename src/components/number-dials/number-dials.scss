@@ -3,30 +3,45 @@ number-dials {
   .number-group {
     text-align: center;
     margin-top: $number-fontsize;
-  }
 
-  .number-dial {
-    display: inline-block;
-    margin: 1em;
-    width: 48px;
+    .number-dial {
+      display: inline-block;
+      margin: 1em;
 
-    .increment, .decrement {
-      text-align: center;
-      color: darken($color-bkgd, 20%);
-    }
+      .number-unit {
+        width: 48px;
 
-    .increment:active, .decrement:active {
-      color: $color-fore;
-    }
+        .increment, .decrement {
+          text-align: center;
+          color: darken($color-bkgd, 20%);
+        }
 
-    .increment.disabled:active, .decrement.disabled:active {
-      color: $color-warning;
-    }
+        .increment:active, .decrement:active {
+          color: $color-fore;
+        }
 
-    .value {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      font-size: 4.5em;
-      text-align: center;
+        .increment.disabled:active, .decrement.disabled:active {
+          color: $color-warning;
+        }
+
+        .value {
+          text-align: center;
+        }
+      }
+
+      .number-unit .value, .delimiter {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: $number-fontsize;
+      }
+
+      .number-unit, .delimiter {
+        display: inline-block;
+      }
+
+      .delimiter {
+        position: relative;
+        top: -0.5em;
+      }
     }
   }
 
@@ -35,7 +50,6 @@ number-dials {
 
     .control {
       display: inline-block;
-//      border: 1px solid $color-fore;
       padding: 0.5em;
       margin: 0 0.5em 1em 0.5em;
       width: 4em;

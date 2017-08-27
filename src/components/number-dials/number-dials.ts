@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { NumberDials } from '../../model/NumberDials';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
-const MAX_DIGITS = 3;
+const MAX_DIGITS = 4;
 const MIN_DIGITS = 1;
+const DEFAULT_VALUE = 1;
 
 @Component({
   selector: 'number-dials',
@@ -35,12 +36,16 @@ export class NumberDialsComponent {
     let config = new NumberDials.Config();
     config.maxDigits = MAX_DIGITS;
     config.minDigits = MIN_DIGITS;
+    config.defaultValue = DEFAULT_VALUE;
     this._model = new NumberDials(config);
-    this._model.dials[0].value = 1;
   }
 
   get model(): NumberDials {
     return this._model;
+  }
+
+  get delimiter(): string {
+    return ',';
   }
 
   private toModelIndex(idx: number) {

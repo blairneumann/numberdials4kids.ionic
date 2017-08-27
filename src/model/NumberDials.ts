@@ -4,6 +4,7 @@ const DEFAULT = {
   MAX_DIGITS: -1, // -1 means no max
   MIN_VALUE: 0,
   MAX_VALUE: 9,
+  DEFAULT_VALUE: 0,
   WRAP: false,
 };
 
@@ -50,11 +51,24 @@ export class NumberDials {
       if (typeof config.maxDigits == 'number' && config.maxDigits >= 0) {
         this._config.maxDigits = config.maxDigits;
       }
-      if (typeof config.minValue == 'number') {
+      if (typeof config.minValue == 'number' && config.minValue >= 0) {
         this._config.minValue = config.minValue;
       }
-      if (typeof config.maxValue == 'number') {
-        this._config.maxValue = (config.maxValue >= this._config.radix) ? (this._config.radix = config.maxValue + 1) : config.maxValue;
+      if (typeof config.maxValue == 'number' && config.maxValue >= -1) {
+        this._config.maxValue = config.maxValue;
+
+        if (config.maxValue >= this._config.radix) {
+          this._config.radix = config.maxValue + 1;
+        }
+      }
+      if (typeof config.defaultValue == 'number') {
+        this._config.defaultValue = config.defaultValue;
+
+        if (this._config.defaultValue < this._config.minValue) {
+          this._config.defaultValue = this._config.minValue;
+        } else if (this._config.defaultValue > this._config.maxValue) {
+          this._config.defaultValue = this._config.maxValue;
+        }
       }
       if (typeof config.wrap == 'boolean') {
         this._config.wrap = config.wrap;
@@ -66,6 +80,9 @@ export class NumberDials {
     }
     if (this._config.minValue > this._config.maxValue) {
       throw new RangeError(`maxValue ${this._config.maxValue} must be greater than or equal to minValue ${this._config.minValue}`);
+    }
+    if (this._config.defaultValue < this._config.minValue || this._config.defaultValue > this._config.maxValue) {
+      throw new RangeError(`defaultValue ${this._config.defaultValue} must be between minValue ${this._config.minValue} and maxValue ${this._config.maxValue}`);
     }
 
     this._dials = [ ];
@@ -81,6 +98,7 @@ export class NumberDials {
     config.radix = this._config.radix;
     config.minValue = this._config.minValue;
     config.maxValue = this._config.maxValue;
+    config.defaultValue = this._config.defaultValue;
     config.wrap = this._config.wrap;
 
     return config;
@@ -171,12 +189,14 @@ export module NumberDials {
     radix: number;
     minValue: number;
     maxValue: number;
+    defaultValue: number;
     wrap: boolean;
 
     constructor() {
       this.radix = DEFAULT.RADIX;
       this.minValue = DEFAULT.MIN_VALUE;
       this.maxValue = DEFAULT.MAX_VALUE;
+      this.defaultValue = DEFAULT.DEFAULT_VALUE;
       this.wrap = DEFAULT.WRAP;
     }
   }
@@ -207,7 +227,7 @@ export module NumberDials {
         this.config = config;
       }
 
-      this._value = this._config.minValue;
+      this._value = this._config.defaultValue;
     }
 
     /** Accessor Properties **/
@@ -246,6 +266,15 @@ export module NumberDials {
             this._config.radix = config.maxValue + 1;
           }
         }
+        if (typeof config.defaultValue == 'number') {
+          this._config.defaultValue = config.defaultValue;
+
+          if (this._config.defaultValue < this._config.minValue) {
+            this._config.defaultValue = this._config.minValue;
+          } else if (this._config.defaultValue > this._config.maxValue) {
+            this._config.defaultValue = this._config.maxValue;
+          }
+        }
         if (typeof config.wrap == 'boolean') {
           this._config.wrap = config.wrap;
         }
@@ -253,6 +282,9 @@ export module NumberDials {
 
       if (this._config.minValue > this._config.maxValue) {
         throw new RangeError(`maxValue ${this._config.maxValue} must be greater than or equal to minValue ${this._config.minValue}`);
+      }
+      if (this._config.defaultValue < this._config.minValue || this._config.defaultValue > this._config.maxValue) {
+        throw new RangeError(`defaultValue ${this._config.defaultValue} must be between minValue ${this._config.minValue} and maxValue ${this._config.maxValue}`);
       }
     }
 
