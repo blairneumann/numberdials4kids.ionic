@@ -1,23 +1,37 @@
 clock-dials {
+
   .clock-group {
     text-align: center;
+    margin-top: $number-fontsize;
 
     .clock-dial {
       display: inline-block;
-      margin: 1em;
 
       .value {
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        font-size: 4.5em;
+        font-size: $number-fontsize;
         text-align: center;
       }
 
       .value.hours {
-        width: 72px;
+        display: inline-block;
+        text-align: center;
+        width: calc(100px + 0.25em);
+        letter-spacing: 0.25em;
+        padding-left: 0.25em;
       }
 
       .value.minutes {
-        width: 48px;
+        width: 1em;
+      }
+
+      .clock-unit, .clock-colon {
+        display: inline-block;
+      }
+
+      .clock-colon {
+        position: relative;
+        top: -0.5em;
       }
 
       .increment, .decrement {
