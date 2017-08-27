@@ -1,0 +1,37 @@
+clock-dials {
+  .clock-group {
+    text-align: center;
+
+    .clock-dial {
+      display: inline-block;
+      margin: 1em;
+
+      .value {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        font-size: 4.5em;
+        text-align: center;
+      }
+
+      .value.hours {
+        width: 72px;
+      }
+
+      .value.minutes {
+        width: 48px;
+      }
+
+      .increment, .decrement {
+        text-align: center;
+        color: lighten($color-fore, 80%);
+      }
+
+      .increment:active, .decrement:active {
+        color: $color-fore;
+      }
+
+      .increment.disabled:active, .decrement.disabled:active {
+        color: $color-warning;
+      }
+    }
+  }
+}

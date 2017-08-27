@@ -1,4 +1,3 @@
-<!-- Generated template for the NumberDialsComponent component -->
 <div class='number-group'>
   <div class='number-dial' *ngFor='let dial of model.dials.reverse(); let idx = index' (swipeup)='increment(idx)' (swipedown)='decrement(idx)'>
     <div class='increment' [class.disabled]='disabled.increment' (click)='increment(idx)' (mouseup)='mouseup()'>

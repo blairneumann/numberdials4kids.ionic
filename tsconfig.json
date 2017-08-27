@@ -20,7 +20,7 @@
     "node_modules",
     "src/**/*.spec.ts"
   ],
-  "types": [ "jasmine" ],
+  "typeRoots": ["node_modules/@types"],
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false

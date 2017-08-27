@@ -1,11 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NumberDials } from './NumberDials';
 
-let describe: any;
-let beforeEach: any;
-let it: any;
-let expect: any;
-
 describe('NumberDials', () => {
   let group: NumberDials;
   let dial: NumberDials.Dial;
@@ -22,7 +17,10 @@ describe('NumberDials', () => {
   }));
 
   beforeEach(() => {
-
+    let config = new NumberDials.Config();
+    config.minDigits = 1;
+    group = new NumberDials(config);
+    dial = group.dials[0];
   });
 
   it('should be testable', () => {
@@ -34,7 +32,7 @@ describe('NumberDials', () => {
   });
 
   it('should have the right default value', () => {
-    expect(dial.value).toEqual(1);
+    expect(dial.value).toEqual(0);
   });
 
   it('should be the first and only in its group', () => {
@@ -61,8 +59,6 @@ describe('NumberDials', () => {
   it('should increment and decrement up to \'999\'', () => {
 
     // should not decrement below zero
-    expect(dial.value).toEqual(1);
-    expect(dial.decrement()).toBeTruthy();
     expect(dial.value).toEqual(0);
     expect(dial.decrement()).toBeFalsy();
     expect(dial.value).toEqual(0);
@@ -80,7 +76,7 @@ describe('NumberDials', () => {
     expect(dial.left.value).toEqual(1);
 
     // should remove that dial when decremented back below
-    expect(dial.left.decrement()).toBeTruthy();
+    expect(dial.decrement()).toBeTruthy();
     expect(dial.value).toEqual(radix - 1);
     expect(dial.left).toBeFalsy();
 
@@ -100,17 +96,16 @@ describe('NumberDials', () => {
       }
     }
 
-    console.log(dial.group.value);
-
     // should add a dial when incrementing up to radix^2
     expect(dial.value).toEqual(radix - 1);
     expect(dial.right).toBeTruthy();
     expect(dial.right.increment()).toBeTruthy();
+    expect(dial.right.value).toEqual(0);
     expect(dial.value).toEqual(0);
     expect(dial.left.value).toEqual(1);
 
     // should remove that dial when decremented back below
-    expect(dial.left.decrement()).toBeTruthy();
+    expect(dial.right.decrement()).toBeTruthy();
     expect(dial.value).toEqual(radix - 1);
     expect(dial.left).toBeFalsy();
 
@@ -122,7 +117,7 @@ describe('NumberDials', () => {
 
     // should increment up to radix^3 - 1 (999)
     for (let idx = 1; idx < radix; ++idx) {
-      expect(dial.right.right.increment).toBeTruthy();
+      expect(dial.right.right.increment()).toBeTruthy();
       expect(dial.right.right.value).toEqual(idx);
       expect(dial.right.increment()).toBeTruthy();
       expect(dial.right.value).toEqual(idx);
@@ -137,7 +132,7 @@ describe('NumberDials', () => {
     for (let idx = 1; idx < radix - 1; ++idx) {
       expect(dial.right.right.decrement()).toBeTruthy();
       expect(dial.right.decrement()).toBeTruthy();
-      expect(dial.decrement).toBeTruthy();
+      expect(dial.decrement()).toBeTruthy();
     }
 
     // then down to '100'
@@ -145,26 +140,25 @@ describe('NumberDials', () => {
     expect(dial.right.right.decrement()).toBeTruthy();
 
     // then down to '99'
-    expect(dial = group.leftMost).toBeTruthy();
+    expect(dial = group.rightMost).toBeTruthy();
     expect(dial.decrement()).toBeTruthy();
 
     // then down to '90'
-    expect(dial = group.leftMost).toBeTruthy();
     for (let idx = 1; idx < radix; ++idx) {
       expect(dial.decrement()).toBeTruthy();
     }
 
     // then down to '10'
     expect(dial = group.leftMost).toBeTruthy();
-    for (let idx = 1; idx < radix; ++idx) {
+    for (let idx = 2; idx < radix; ++idx) {
       expect(dial.decrement()).toBeTruthy();
     }
 
     // then down to '9'
+    expect(dial = group.rightMost).toBeTruthy();
     expect(dial.decrement()).toBeTruthy();
 
     // then down to zero
-    expect(dial = group.leftMost).toBeTruthy();
     for (let idx = 1; idx < radix; ++idx) {
       expect(dial.decrement()).toBeTruthy();
     }
@@ -194,12 +188,11 @@ describe('NumberDials', () => {
   it('should increment from zero to max and decrement back to zero by the left-most digit', () => {
 
     // start at zero
-    expect(dial.decrement()).toBeTruthy();
     expect(dial.value).toEqual(0);
 
     // increment up to '999' by incrementing the left-most digit
     for (let idx = 0; idx < power; ++idx) {
-      for (let idy = (idx ? 2 : 1); idy < radix; ++idy) {
+      for (let idy = 1; idy < radix; ++idy) {
         expect(group.leftMost.increment()).toBeTruthy();
       }
       if (idx < power - 1) {
@@ -225,7 +218,6 @@ describe('NumberDials', () => {
     let value = 0;
 
     // start at zero
-    expect(dial.decrement()).toBeTruthy();
     expect(dial.value).toEqual(0);
 
     dial = group.rightMost;
@@ -247,7 +239,6 @@ describe('NumberDials', () => {
     let value = 0;
 
     // start at zero
-    expect(dial.decrement()).toBeTruthy();
     expect(dial.value).toEqual(0);
 
     for (let i100s = 0; i100s < radix; ++i100s) {

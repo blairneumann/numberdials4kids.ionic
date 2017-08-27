@@ -4,12 +4,6 @@ import { NumberDials } from '../../model/NumberDials';
 const MAX_DIGITS = 3;
 const MIN_DIGITS = 1;
 
-/**
- * Generated class for the NumberDialsComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'number-dials',
   templateUrl: 'number-dials.html'

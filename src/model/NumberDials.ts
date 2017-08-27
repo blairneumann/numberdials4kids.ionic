@@ -3,61 +3,87 @@ const DEFAULT = {
   MIN_DIGITS: 0,
   MAX_DIGITS: -1, // -1 means no max
   MIN_VALUE: 0, // ignored
-  MAX_VALUE: this.RADIX - 1,
+  MAX_VALUE: 9,
   WRAP: false,
 };
 
 export class NumberDials {
-  private _radix: number;
-  private _minDigits: number;
-  private _maxDigits: number;
-
-  private _dialConfig: NumberDials.DialConfig;
+  private _config: NumberDials.Config;
   private _dials: NumberDials.Dial[];
 
   /* Constructor */
 
   constructor(config?: NumberDials.Config) {
-    this._radix = config && typeof config.radix == 'number' && config.radix > 0 ? config.radix : DEFAULT.RADIX;
-    this._minDigits = config && typeof config.minDigits == 'number' && config.minDigits >= 0 ? config.minDigits : DEFAULT.MIN_DIGITS;
-    this._maxDigits = config && typeof config.maxDigits == 'number' && config.maxDigits >= 0 ? config.maxDigits : DEFAULT.MAX_DIGITS;
+    this._config = new NumberDials.Config();
 
-    if (this._maxDigits != -1 && this._minDigits > this._maxDigits) {
-      throw new RangeError(`minDigits ${this._minDigits} must be less than or equal to maxDigits ${this._maxDigits}`);
-    }
-
-    this._dialConfig = new NumberDials.DialConfig();
-    this._dialConfig.radix = this._radix;
-    this._dialConfig.minValue = config && typeof config.minValue == 'number' ? config.minValue : DEFAULT.MIN_VALUE;
-    this._dialConfig.maxValue = config && typeof config.maxValue == 'number' ? config.maxValue : DEFAULT.MAX_VALUE;
-    this._dialConfig.wrap = config && typeof config.wrap == 'boolean' ? config.wrap : DEFAULT.WRAP;
-
-    if (this._dialConfig.minValue > this._dialConfig.maxValue) {
-      throw new RangeError(`minValue ${this._dialConfig.minValue} must be less than or equal to maxValue ${this._dialConfig.maxValue}`);
-    }
-
-    this._dials = [ ];
-    for (let idx = 0; idx < this._minDigits; ++idx) {
-      this._dials.push(new NumberDials.Dial(this, this._dialConfig));
+    if (config) {
+      this.config = config;
     }
   }
 
   /* Accessor Properties */
 
+  get config(): NumberDials.Config {
+    return this._config;
+  }
+
   get radix() {
-    return this._radix;
+    return this._config.radix;
   }
 
   get minDigits() {
-    return this._minDigits;
+    return this._config.minDigits;
   }
 
   get maxDigits() {
-    return this._maxDigits;
+    return this._config.maxDigits;
+  }
+
+  set config(config: NumberDials.Config) {
+    if (config) {
+      if (typeof config.radix == 'number' && config.radix > 0) {
+        this._config.radix = config.radix;
+      }
+      if (typeof config.minDigits == 'number' && config.minDigits >= 0) {
+        this._config.minDigits = config.minDigits;
+      }
+      if (typeof config.maxDigits == 'number' && config.maxDigits >= 0) {
+        this._config.maxDigits = config.maxDigits;
+      }
+      if (typeof config.minValue == 'number') {
+        this._config.minValue = config.minValue;
+      }
+      if (typeof config.maxValue == 'number') {
+        this._config.maxValue = config.maxValue;
+      }
+      if (typeof config.wrap == 'boolean') {
+        this._config.wrap = config.wrap;
+      }
+    }
+
+    if (this._config.maxDigits != -1 && this._config.minDigits > this._config.maxDigits) {
+      throw new RangeError(`maxDigits ${this._config.maxDigits} must be greater than or equal to minDigits ${this._config.minDigits}`);
+    }
+    if (this._config.minValue > this._config.maxValue) {
+      throw new RangeError(`maxValue ${this._config.maxValue} must be greater than or equal to minValue ${this._config.minValue}`);
+    }
+
+    this._dials = [ ];
+    let dialConfig = this.dialConfig;
+    for (let idx = 0; idx < this._config.minDigits; ++idx) {
+      this._dials.push(new NumberDials.Dial(this, dialConfig));
+    }
   }
 
   get dialConfig(): NumberDials.DialConfig {
-    return this._dialConfig;
+    let config = new NumberDials.DialConfig();
+
+    config.radix = this._config.radix;
+    config.minValue = this._config.minValue;
+    config.maxValue = this._config.maxValue;
+    config.wrap = this._config.wrap;
+
+    return config;
   }
 
   get dials(): NumberDials.Dial[] {
@@ -72,7 +98,7 @@ export class NumberDials {
     let value = 0;
 
     for (let dial = this.leftMost; dial; dial = this.rightOf(dial)) {
-      value *= this._radix;
+      value *= this._config.radix;
       value += dial.value;
     }
 
@@ -107,8 +133,8 @@ export class NumberDials {
   /* Resize */
 
   grow(): NumberDials.Dial {
-    if (this._maxDigits == -1 || this._dials.length < this._maxDigits) {
-      let dial = new NumberDials.Dial(this, this._dialConfig);
+    if (this._config.maxDigits == -1 || this._dials.length < this._config.maxDigits) {
+      let dial = new NumberDials.Dial(this, this.dialConfig);
       this._dials.push(dial);
       return dial;
     }
@@ -116,7 +142,7 @@ export class NumberDials {
   }
 
   shrink(): NumberDials.Dial {
-    if (this._dials.length > this._minDigits) {
+    if (this._dials.length > this._config.minDigits) {
       let dial = this._dials.pop();
       return dial;
     }
@@ -125,7 +151,7 @@ export class NumberDials {
 
   remove(dial: NumberDials.Dial): boolean {
     let idx = this._dials.indexOf(dial);
-    if (idx > -1 && this._dials.length > this._minDigits) {
+    if (idx > -1 && this._dials.length > this._config.minDigits) {
       this.dials.splice(idx, 1);
       return true;
     }
@@ -146,36 +172,42 @@ export module NumberDials {
     minValue: number;
     maxValue: number;
     wrap: boolean;
+
+    constructor() {
+      this.radix = DEFAULT.RADIX;
+      this.minValue = DEFAULT.MIN_VALUE;
+      this.maxValue = DEFAULT.MAX_VALUE;
+      this.wrap = DEFAULT.WRAP;
+    }
   }
 
   export class Config extends DialConfig {
     minDigits: number;
     maxDigits: number;
+
+    constructor() {
+      super();
+      this.minDigits = DEFAULT.MIN_DIGITS;
+      this.maxDigits = DEFAULT.MAX_DIGITS;
+    }
   }
 
   export class Dial {
     private _group: NumberDials;
+    private _config: NumberDials.DialConfig;
     private _value: number;
-
-    private _radix: number;
-    private _minValue: number;
-    private _maxValue: number;
-    private _wrap: boolean;
 
     /* Constructor */
 
     constructor(group: NumberDials, config?: NumberDials.DialConfig) {
       this._group = group || null;
-      this._radix = config && typeof config.radix == 'number' && config.radix > 0 ? config.radix : DEFAULT.RADIX;
-      this._minValue = config && typeof config.minValue == 'number' && config.minValue >= 0 ? config.minValue : DEFAULT.MIN_VALUE;
-      this._maxValue = config && typeof config.maxValue == 'number' && config.maxValue >= -1 ? config.maxValue : DEFAULT.MAX_VALUE;
-      this._wrap = config && typeof config.wrap != 'undefined' ? config.wrap : DEFAULT.WRAP;
+      this._config = new NumberDials.DialConfig();
 
-      if (this._minValue > this._maxValue) {
-        throw new RangeError(`minValue ${this._minValue} must be less than or equal to maxValue ${this._maxValue}`);
+      if (config) {
+        this.config = config;
       }
 
-      this._value = this._minValue;
+      this._value = this._config.minValue;
     }
 
     /** Accessor Properties **/
@@ -195,20 +227,45 @@ export module NumberDials {
       this._value = value;
     }
 
+    get config(): NumberDials.DialConfig {
+      return this._config;
+    }
+
+    set config(config: NumberDials.DialConfig) {
+      if (config) {
+        if (typeof config.radix == 'number' && config.radix > 0) {
+          this._config.radix = config.radix;
+        }
+        if (typeof config.minValue == 'number' && config.minValue >= 0) {
+          this._config.minValue = config.minValue;
+        }
+        if (typeof config.maxValue == 'number' && config.maxValue >= -1) {
+          this._config.maxValue = config.maxValue;
+        }
+        if (typeof config.wrap == 'boolean') {
+          this._config.wrap = config.wrap;
+        }
+      }
+
+      if (this._config.minValue > this._config.maxValue) {
+        throw new RangeError(`maxValue ${this._config.maxValue} must be greater than or equal to minValue ${this._config.minValue}`);
+      }
+    }
+
     get radix(): number {
-      return this._radix;
+      return this._config.radix;
     }
 
     get minValue(): number {
-      return this._minValue;
+      return this._config.minValue;
     }
 
     get maxValue(): number {
-      return this._maxValue;
+      return this._config.maxValue;
     }
 
     get wrap(): boolean {
-      return this._wrap;
+      return this._config.wrap;
     }
 
     /* Iterable */
@@ -243,7 +300,7 @@ export module NumberDials {
     let value = this._value + 1;
 
     // simple case
-    if (value < this._radix) {
+    if (value < this._config.radix) {
       this._value = value;
       return true;
     }
@@ -312,7 +369,7 @@ export module NumberDials {
         // bring it across
         do {
           right = right.right;
-          right.value = this._radix - 1;
+          right.value = this._config.radix - 1;
         } while (right && right != this);
 
         return left.decrement();

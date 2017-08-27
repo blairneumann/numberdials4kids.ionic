@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { NumberPage } from '../pages/number/number';
+import { ClockPage } from '../pages/clock/clock';
 
 @Component({
   templateUrl: 'app.html'
@@ -20,8 +22,8 @@ export class NumberDials4KidsApp {
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Number Dials', component: HomePage, mode: 'number' },
-      { title: 'Clock Dials', component: HomePage, mode: 'clock' }
+      { title: 'Number Dials', component: NumberPage, mode: 'number' },
+      { title: 'Clock Dials', component: ClockPage, mode: 'clock' }
     ];
 
   }
@@ -38,6 +40,6 @@ export class NumberDials4KidsApp {
   openPage(page, mode: string) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component, { mode: mode });
+    this.nav.push(page.component, { mode: mode });
   }
 }

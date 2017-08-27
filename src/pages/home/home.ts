@@ -1,22 +1,20 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
+import { NumberPage } from '../number/number';
+import { ClockPage } from '../clock/clock';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  private _mode: string;
+  pages = [ NumberPage, ClockPage ];
 
-  constructor(private navParams: NavParams) {
-    this._mode = navParams.get('mode');
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  get mode(): string {
-    return this._mode;
-  }
-
-  set mode(mode: string) {
-    this._mode = mode;
+  navigateTo(idx: number) {
+    this.navCtrl.push(this.pages[idx]);
   }
 }

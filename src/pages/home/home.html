@@ -7,9 +7,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Number Dials 4 Kids</h3>
-  <p>mode: {{mode}}</p>
-
-  <number-dials></number-dials>
+<ion-content>
+  <h3 class="welcome">Welcome!</h3>
+  <div class="mode-button" (click)="navigateTo(0)">1,234</div>
+  <div class="mode-button" (click)="navigateTo(1)">12:34</div>
 </ion-content>
