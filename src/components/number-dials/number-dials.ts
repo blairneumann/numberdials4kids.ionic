@@ -1,12 +1,30 @@
 import { Component } from '@angular/core';
 import { NumberDials } from '../../model/NumberDials';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 const MAX_DIGITS = 3;
 const MIN_DIGITS = 1;
 
 @Component({
   selector: 'number-dials',
-  templateUrl: 'number-dials.html'
+  templateUrl: 'number-dials.html',
+  animations: [
+    trigger('dialInOut', [
+      transition(':enter', [
+        style({
+          transform: 'translateX(0) scale(0)',
+          opacity: 0,
+        }),
+        animate('200ms ease-out'),
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({
+          transform: 'translateX(0) scale(0)',
+          opacity: 0,
+        })),
+      ]),
+    ]),
+  ],
 })
 export class NumberDialsComponent {
 
