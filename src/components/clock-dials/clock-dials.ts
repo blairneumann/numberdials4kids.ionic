@@ -14,7 +14,7 @@ export class ClockDialsComponent {
     let config: any;
 
     config = new ClockDials.Config();
-    config.is24hour = true;
+    config.is24hour = false;
     this._model = new ClockDials(config);
 
     // 12:34
