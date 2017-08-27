@@ -34,7 +34,6 @@ export class ClockDials {
   }
 
   get dials() {
-    console.log(this._dials);
     return this._dials.dials;
   }
 

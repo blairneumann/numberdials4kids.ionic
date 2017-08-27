@@ -2,7 +2,7 @@ const DEFAULT = {
   RADIX: 10,
   MIN_DIGITS: 0,
   MAX_DIGITS: -1, // -1 means no max
-  MIN_VALUE: 0, // ignored
+  MIN_VALUE: 0,
   MAX_VALUE: 9,
   WRAP: false,
 };
@@ -54,7 +54,7 @@ export class NumberDials {
         this._config.minValue = config.minValue;
       }
       if (typeof config.maxValue == 'number') {
-        this._config.maxValue = config.maxValue;
+        this._config.maxValue = (config.maxValue >= this._config.radix) ? (this._config.radix = config.maxValue + 1) : config.maxValue;
       }
       if (typeof config.wrap == 'boolean') {
         this._config.wrap = config.wrap;
@@ -241,6 +241,10 @@ export module NumberDials {
         }
         if (typeof config.maxValue == 'number' && config.maxValue >= -1) {
           this._config.maxValue = config.maxValue;
+
+          if (config.maxValue >= this._config.radix) {
+            this._config.radix = config.maxValue + 1;
+          }
         }
         if (typeof config.wrap == 'boolean') {
           this._config.wrap = config.wrap;
@@ -300,12 +304,12 @@ export module NumberDials {
     let value = this._value + 1;
 
     // simple case
-    if (value < this._config.radix) {
+    if (value <= this._config.maxValue) {
       this._value = value;
       return true;
     }
 
-    // case: radix, so carry
+    // greater than maxValue, so carry
     let left;
 
     if (this.isLeftMost) {
@@ -329,17 +333,17 @@ export module NumberDials {
     let value = this._value - 1;
 
     // when it's safe to simply decrement
-    if (value > 0 || value == 0 && (this.isOnly || !this.isLeftMost)) {
+    if (value > this.minValue || value == this.minValue && (this.isOnly || !this.isLeftMost)) {
       this._value = value;
       return true;
     }
 
     // decrementing the first digit to zero
-    if (value == 0 && this.isLeftMost) {
+    if (value == this.minValue && this.isLeftMost) {
       let right = this.right;
 
       // Get rid of any new leading zeros
-      while (right && right.value == 0) {
+      while (right && right.value == right.minValue) {
 
         // decrementing the 10s place from 10 (for example) should leave a zero
         if (right.isRightMost)
@@ -350,26 +354,27 @@ export module NumberDials {
         right = next;
       }
 
+      this._value = value;
       return this.remove();
     }
 
     // borrow
-    if (!this.isLeftMost && value < 0) {
+    if (!this.isLeftMost && value < this.minValue) {
       let left = <NumberDials.Dial>this;
 
       // find a value to borrow from
-      while (left && left.value === 0) {
+      while (left && left.value === left.minValue) {
         left = left.left;
       }
 
       // did we find one?
-      if (left && left.value > 0) {
+      if (left && left.value > left.minValue) {
         let right = left;
 
         // bring it across
         do {
           right = right.right;
-          right.value = this._config.radix - 1;
+          right.value = right.config.maxValue;
         } while (right && right != this);
 
         return left.decrement();
