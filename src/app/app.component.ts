@@ -4,8 +4,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-// import { NumberPage } from '../pages/number/number';
-// import { ClockPage } from '../pages/clock/clock';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,17 +13,8 @@ export class NumberDials4KidsApp {
 
   rootPage: any = HomePage;
 
-//  pages: Array<{title: string, component: any, mode: string}>;
-
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    // this.pages = [
-    //   { title: 'Number Dials', component: NumberPage, mode: 'number' },
-    //   { title: 'Clock Dials', component: ClockPage, mode: 'clock' }
-    // ];
-
   }
 
   initializeApp() {
