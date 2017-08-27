@@ -11,11 +11,7 @@ export class ClockDialsComponent {
   disabled = { grow: false, shrink: false, increment: false, decrement: false };
 
   constructor() {
-    let config: any;
-
-    config = new ClockDials.Config();
-    config.is24hour = false;
-    this._model = new ClockDials(config);
+    this._model = new ClockDials({ is24hour: false });
 
     // 12:34
     this._model.dialHours.value = 12;

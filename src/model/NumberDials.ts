@@ -14,7 +14,7 @@ export class NumberDials {
 
   /* Constructor */
 
-  constructor(config?: NumberDials.Config) {
+  constructor(config?: NumberDials.Config | any) {
     this._config = new NumberDials.Config();
 
     if (config) {
@@ -24,7 +24,7 @@ export class NumberDials {
 
   /* Accessor Properties */
 
-  get config(): NumberDials.Config {
+  get config(): NumberDials.Config | any {
     return this._config;
   }
 
@@ -40,7 +40,7 @@ export class NumberDials {
     return this._config.maxDigits;
   }
 
-  set config(config: NumberDials.Config) {
+  set config(config: NumberDials.Config | any) {
     if (config) {
       if (typeof config.radix == 'number' && config.radix > 0) {
         this._config.radix = config.radix;
@@ -219,7 +219,7 @@ export module NumberDials {
 
     /* Constructor */
 
-    constructor(group: NumberDials, config?: NumberDials.DialConfig) {
+    constructor(group: NumberDials, config?: NumberDials.DialConfig | any) {
       this._group = group || null;
       this._config = new NumberDials.DialConfig();
 
@@ -247,11 +247,11 @@ export module NumberDials {
       this._value = value;
     }
 
-    get config(): NumberDials.DialConfig {
+    get config(): NumberDials.DialConfig | any {
       return this._config;
     }
 
-    set config(config: NumberDials.DialConfig) {
+    set config(config: NumberDials.DialConfig | any) {
       if (config) {
         if (typeof config.radix == 'number' && config.radix > 0) {
           this._config.radix = config.radix;

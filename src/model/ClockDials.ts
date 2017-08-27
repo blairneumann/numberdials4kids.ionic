@@ -8,7 +8,7 @@ const DEFAULT = {
 export class ClockDials {
   _dials: NumberDials;
 
-  constructor(config?: ClockDials.Config) {
+  constructor(config?: ClockDials.Config | any) {
     let dialsConfig = new NumberDials.Config();
     dialsConfig.minDigits = DEFAULT.DIGITS;
     dialsConfig.maxDigits = DEFAULT.DIGITS;
