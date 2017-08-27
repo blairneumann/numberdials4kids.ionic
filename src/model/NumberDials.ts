@@ -299,91 +299,90 @@ export module NumberDials {
 
     /* Increment, Decrement */
 
+    increment(): boolean {
+      let value = this._value + 1;
 
-  increment(): boolean {
-    let value = this._value + 1;
-
-    // simple case
-    if (value <= this._config.maxValue) {
-      this._value = value;
-      return true;
-    }
-
-    // greater than maxValue, so carry
-    let left;
-
-    if (this.isLeftMost) {
-      left = this._group.grow();
-      if (left) {
-        left.value = 0;
-      }
-    } else {
-      left = this.left;
-    }
-
-    if (left && left.increment()) {
-      this._value = 0;
-      return true;
-    }
-
-    return false;
-  }
-
-  decrement(): boolean {
-    let value = this._value - 1;
-
-    // when it's safe to simply decrement
-    if (value > this.minValue || value == this.minValue && (this.isOnly || !this.isLeftMost)) {
-      this._value = value;
-      return true;
-    }
-
-    // decrementing the first digit to zero
-    if (value == this.minValue && this.isLeftMost) {
-      let right = this.right;
-
-      // Get rid of any new leading zeros
-      while (right && right.value == right.minValue) {
-
-        // decrementing the 10s place from 10 (for example) should leave a zero
-        if (right.isRightMost)
-          break;
-
-        let next = right.right;
-        right.remove();
-        right = next;
+      // simple case
+      if (value <= this._config.maxValue) {
+        this._value = value;
+        return true;
       }
 
-      this._value = value;
-      return this.remove();
-    }
+      // greater than maxValue, so carry
+      let left;
 
-    // borrow
-    if (!this.isLeftMost && value < this.minValue) {
-      let left = <NumberDials.Dial>this;
-
-      // find a value to borrow from
-      while (left && left.value === left.minValue) {
-        left = left.left;
+      if (this.isLeftMost) {
+        left = this._group.grow();
+        if (left) {
+          left.value = 0;
+        }
+      } else {
+        left = this.left;
       }
 
-      // did we find one?
-      if (left && left.value > left.minValue) {
-        let right = left;
-
-        // bring it across
-        do {
-          right = right.right;
-          right.value = right.config.maxValue;
-        } while (right && right != this);
-
-        return left.decrement();
+      if (left && left.increment()) {
+        this._value = 0;
+        return true;
       }
+
+      return false;
     }
 
-    // decrementing a non-first digit below zero
-    return false;
-  }
+    decrement(): boolean {
+      let value = this._value - 1;
+
+      // when it's safe to simply decrement
+      if (value > this.minValue || value == this.minValue && (this.isOnly || !this.isLeftMost)) {
+        this._value = value;
+        return true;
+      }
+
+      // decrementing the first digit to zero
+      if (value == this.minValue && this.isLeftMost) {
+        let right = this.right;
+
+        // Get rid of any new leading zeros
+        while (right && right.value == right.minValue) {
+
+          // decrementing the 10s place from 10 (for example) should leave a zero
+          if (right.isRightMost)
+            break;
+
+          let next = right.right;
+          right.remove();
+          right = next;
+        }
+
+        this._value = value;
+        return this.remove();
+      }
+
+      // borrow
+      if (!this.isLeftMost && value < this.minValue) {
+        let left = <NumberDials.Dial>this;
+
+        // find a value to borrow from
+        while (left && left.value === left.minValue) {
+          left = left.left;
+        }
+
+        // did we find one?
+        if (left && left.value > left.minValue) {
+          let right = left;
+
+          // bring it across
+          do {
+            right = right.right;
+            right.value = right.config.maxValue;
+          } while (right && right != this);
+
+          return left.decrement();
+        }
+      }
+
+      // decrementing a non-first digit below zero
+      return false;
+    }
 
     /* Utility */
 

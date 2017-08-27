@@ -19,17 +19,20 @@ export class ClockDials {
     dialConfig.minValue = 1;
     dialConfig.maxValue = 12;
     this.dials[0].config = dialConfig;
-    this.dials[0].value = 12;
 
     // Minute-Tens: 0-5
     dialConfig.minValue = 0;
     dialConfig.maxValue = 5;
     this.dials[1].config = dialConfig;
-    this.dials[1].value = 3;
 
     // Minute-Ones: 0-9
+    dialConfig.minValue = 0;
     dialConfig.maxValue = 9;
     this.dials[2].config = dialConfig;
+
+    // 12:34 by default
+    this.dials[0].value = 12;
+    this.dials[1].value = 3;
     this.dials[2].value = 4;
   }
 
