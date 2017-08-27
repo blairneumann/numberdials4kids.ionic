@@ -12,7 +12,7 @@ number-dials {
 
     .increment, .decrement {
       text-align: center;
-      color: lighten($color-fore, 80%);
+      color: darken($color-bkgd, 20%);
     }
 
     .increment:active, .decrement:active {
