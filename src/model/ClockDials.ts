@@ -46,16 +46,12 @@ export class ClockDials {
     return DEFAULT.DIGITS;
   }
 
-  get dialHours(): NumberDials.Dial {
-    return this._dials.dials[0];
-  }
-
-  get dialMinutes10s(): NumberDials.Dial {
-    return this._dials.dials[1];
-  }
-
-  get dialMinutes1s(): NumberDials.Dial {
-    return this._dials.dials[2];
+  get dial() {
+    return {
+      hours: this._dials.dials[0],
+      minutes10s: this._dials.dials[1],
+      minutes1s: this._dials.dials[2],
+    }
   }
 
   dialAt(idx: number): NumberDials.Dial {

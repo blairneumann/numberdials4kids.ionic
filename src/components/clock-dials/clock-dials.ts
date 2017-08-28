@@ -14,9 +14,9 @@ export class ClockDialsComponent {
     this._model = new ClockDials({ is24hour: false });
 
     // 12:34
-    this._model.dialHours.value = 12;
-    this._model.dialMinutes10s.value = 3;
-    this._model.dialMinutes1s.value = 4;
+    this._model.dial.hours.value = 12;
+    this._model.dial.minutes10s.value = 3;
+    this._model.dial.minutes1s.value = 4;
   }
 
   get model(): ClockDials {
