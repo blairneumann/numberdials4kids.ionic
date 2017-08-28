@@ -38,12 +38,12 @@ export class ClockDials {
     this.dials[2].config = dialConfig;
   }
 
-  get dials() {
-    return this._dials.dials;
-  }
-
   get length() {
     return DEFAULT.DIGITS;
+  }
+
+  get dials() {
+    return this._dials.dials;
   }
 
   get dial() {
