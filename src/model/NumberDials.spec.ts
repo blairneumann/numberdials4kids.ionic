@@ -1,5 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NumberDials } from './NumberDials';
+import 'jasmine';
 
 describe('NumberDials', () => {
   let group: NumberDials;
