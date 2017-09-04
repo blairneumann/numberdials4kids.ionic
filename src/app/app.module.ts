@@ -1,7 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { Media } from '@ionic-native/media'
 
 import { NumberDials4KidsApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -9,9 +14,7 @@ import { NumberPage } from '../pages/number/number';
 import { ClockPage } from '../pages/clock/clock';
 import { NumberDialsComponent } from '../components/number-dials/number-dials';
 import { ClockDialsComponent } from '../components/clock-dials/clock-dials';
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { SpeechProvider } from '../providers/speech/speech';
 
 @NgModule({
   declarations: [
@@ -25,9 +28,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpModule,
     IonicModule.forRoot(NumberDials4KidsApp),
   ],
-  bootstrap: [IonicApp],
+  bootstrap: [ IonicApp ],
   entryComponents: [
     NumberDials4KidsApp,
     HomePage,
@@ -37,7 +41,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    Media,
+    SpeechProvider,
   ]
 })
 export class AppModule {}

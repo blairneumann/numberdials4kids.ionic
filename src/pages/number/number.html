@@ -1,9 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Number Dials</ion-title>
+    <ion-title>1,234</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <number-dials></number-dials>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="onPlayPause()">
+      <ion-icon [name]="iconPlayPause"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

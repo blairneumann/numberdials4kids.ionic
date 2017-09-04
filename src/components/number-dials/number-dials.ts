@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NumberDials } from '../../model/NumberDials';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 const MAX_DIGITS = 4;
 const MIN_DIGITS = 1;
@@ -42,6 +42,10 @@ export class NumberDialsComponent {
 
   get model(): NumberDials {
     return this._model;
+  }
+
+  get value(): number {
+    return this._model.value;
   }
 
   get delimiter(): string {

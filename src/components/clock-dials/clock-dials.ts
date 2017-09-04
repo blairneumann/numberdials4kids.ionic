@@ -23,8 +23,12 @@ export class ClockDialsComponent {
     return this._model;
   }
 
+  get value(): string {
+    return this._model.value;
+  }
+
   private toModelIndex(idx: number) {
-    return this._model.length - 1 - idx;
+    return idx;
   }
 
   increment(idx: number) {

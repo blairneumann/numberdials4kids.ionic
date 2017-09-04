@@ -1,9 +1,15 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Clock Dials</ion-title>
+    <ion-title>12:34</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <clock-dials></clock-dials>
+  
+  <ion-fab bottom right>
+    <button ion-fab (click)="onPlayPause()">
+      <ion-icon [name]="iconPlayPause"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
