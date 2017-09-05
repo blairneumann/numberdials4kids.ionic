@@ -1,12 +1,10 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>12:34</ion-title>
-  </ion-navbar>
-</ion-header>
-
 <ion-content>
+  <button ion-button (click)="onBack()">
+    <ion-icon name="ionic"></ion-icon>
+  </button>
+
   <clock-dials></clock-dials>
-  
+
   <ion-fab bottom right>
     <button ion-fab (click)="onPlayPause()">
       <ion-icon [name]="iconPlayPause"></ion-icon>

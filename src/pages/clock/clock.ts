@@ -17,6 +17,10 @@ export class ClockPage {
 
   ionViewDidLoad() { }
 
+  onBack() {
+    this.navCtrl.pop();
+  }
+
   get iconPlayPause(): string {
     return this.speech.status == SpeechStatus.Idle ? 'play' : 'pause';
   }
