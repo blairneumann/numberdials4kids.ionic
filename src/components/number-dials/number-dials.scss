@@ -2,7 +2,7 @@ number-dials {
 
   .number-group {
     text-align: center;
-    margin-top: $number-fontsize;
+    margin-top: calc($number-fontsize - 0.5em);
 
     .number-dial {
       display: inline-block;
