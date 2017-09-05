@@ -5,9 +5,20 @@ page-home {
     .mode-button {
       padding: 0.7em;
       margin: 1em;
-      font-size: 3em;
-      border: 1px solid $color-fore;
+      border: 3px solid $color-fore;
       border-radius: 0.5em;
+    }
+
+    .mode-button.number {
+      font-family: 'ItimRegular';
+      font-size: 3em;
+      letter-spacing: 0.10em;
+    }
+
+    .mode-button.clock {
+      font-family: 'ItimRegular';
+      font-size: 3em;
+      letter-spacing: 0.10em;
     }
 
     .mode-button:active {
