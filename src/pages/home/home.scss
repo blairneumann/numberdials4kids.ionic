@@ -1,6 +1,6 @@
 page-home {
   ion-content {
-    background-image: url(../assets/image/435248959.jpg);
+    background-image: url(../assets/image/435248959.svg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -9,6 +9,7 @@ page-home {
     .mode-button {
       padding: 0.7em;
       margin: 1em;
+      background-color: rgba(255, 255, 255, 0.25);
       border: 3px solid $color-fore;
       border-radius: 0.5em;
     }
@@ -26,7 +27,7 @@ page-home {
     }
 
     .mode-button:active {
-      background-color: rgba(255, 255, 255, 0.60);
+      background-color: rgba(255, 255, 255, 0.50);
     }
   }
 }
