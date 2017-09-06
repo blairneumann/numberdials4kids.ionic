@@ -83,7 +83,7 @@ export class ClockDials {
       minutes10s: this._dials.dials[1],
       minutes1s: this._dials.dials[2],
     }
-  }
+  } 
 
   dialAt(idx: number): NumberDials.Dial {
     return this._dials.dialAt(idx);

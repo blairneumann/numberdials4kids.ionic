@@ -28,7 +28,7 @@ export class ClockDialsComponent {
   }
 
   private toModelIndex(idx: number) {
-    return idx;
+    return this._model.length - 1 - idx;
   }
 
   increment(idx: number) {

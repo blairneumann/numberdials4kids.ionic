@@ -1,5 +1,5 @@
 <div class='clock-group'>
-  <div class='clock-dial' *ngFor='let dial of model.dials; let idx = index' (swipeup)='increment(idx)' (swipedown)='decrement(idx)'>
+  <div class='clock-dial' *ngFor='let dial of model.dials.reverse(); let idx = index' (swipeup)='increment(idx)' (swipedown)='decrement(idx)'>
     <div class='clock-unit'>
       <div class='increment' [class.disabled]='disabled.increment' (click)='increment(idx)' (mouseup)='mouseup()'>
         <span class='fa fa-chevron-up'></span>
