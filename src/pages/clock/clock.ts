@@ -22,7 +22,7 @@ export class ClockPage {
   }
 
   get iconPlayPause(): string {
-    return this.speech.status == SpeechStatus.Idle ? 'play' : 'pause';
+    return this.speech.playStatus ? 'play' : 'pause';
   }
 
   onPlayPause() {

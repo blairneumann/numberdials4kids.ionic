@@ -21,10 +21,15 @@ export class SpeechProvider {
 
   constructor(public http: Http, private audio: Media) {
     this._status = SpeechStatus.Idle;
+
   }
 
   get status(): string {
     return this._status;
+  }
+
+  get playStatus(): boolean {
+    return [ SpeechStatus.Idle, SpeechStatus.Error ].indexOf(this._status) > -1;
   }
 
   play(type: string, value: string) {
