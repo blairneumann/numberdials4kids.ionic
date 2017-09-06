@@ -1,27 +1,39 @@
 number-dials {
+  $text-fill: rgb(255, 251, 183);
+  $text-stroke: rgb(226, 0, 47);
+  $increment: rgba(0, 0, 0, 0.25);
+  $increment-active: rgba(0, 0, 0, 0.75);
+  $increment-disabled: $color-warning;
+  $control-text: rgba(0, 0, 0, 0.40);
+  $control-stroke: rgba(0, 0, 0, 0.00);
+  $control-fill-active: rgba(0, 0, 0, 0.05);
+  $control-stroke-active: rgba(0, 0, 0, 0.75);
+  $control-text-disabled: $color-warning;
+  $control-fill-disabled: lighten($color-warning, 40%);
+  $control-stroke-disabled: $color-warning;
 
   .number-group {
     text-align: center;
-    margin-top: calc($number-fontsize - 0.5em);
+    margin-top: calc($font-size - 0.5em);
 
     .number-dial {
       display: inline-block;
       margin: 1em;
 
       .number-unit {
-        width: 32px;
+        width: 48px;
 
         .increment, .decrement {
           text-align: center;
-          color: darken($color-bkgd, 20%);
+          color: $increment;
         }
 
         .increment:active, .decrement:active {
-          color: $color-fore;
+          color: $increment-active;
         }
 
         .increment.disabled:active, .decrement.disabled:active {
-          color: $color-warning;
+          color: $increment-disabled;
         }
 
         .value {
@@ -31,7 +43,13 @@ number-dials {
 
       .number-unit .value, .delimiter {
         font-family: 'ItimRegular';
-        font-size: $number-fontsize;
+        font-size: $font-size;
+        color: $text-fill;
+        text-shadow:
+          -1px -1px 1px $text-stroke,
+          -1px  1px 1px $text-stroke,
+           1px -1px 1px $text-stroke,
+           1px  1px 1px $text-stroke
       }
 
       .number-unit, .delimiter {
@@ -41,6 +59,7 @@ number-dials {
       .delimiter {
         position: relative;
         top: -0.5em;
+        left: 0.25em;
       }
     }
   }
@@ -51,19 +70,22 @@ number-dials {
     .control {
       display: inline-block;
       padding: 0.5em;
-      margin: 0 0.5em 1em 0.5em;
+      margin-bottom: 1em;
       width: 4em;
       box-sizing: content-box;
+      color: $control-text;
+      border: 1px solid $control-stroke;
     }
 
     .control:active {
-      background-color: darken($color-bkgd, 10%);
-      border: 1px solid $color-fore;
+      background-color: $control-fill-active;
+      border: 1px solid $control-stroke-active;
     }
 
     .control.disabled:active {
-      background-color: lighten($color-warning, 40%);
-      border: 1px solid $color-warning;
+      color: $control-text-disabled;
+      background-color: $control-fill-disabled;
+      border: 1px solid $control-stroke-disabled;
     }
   }
 }

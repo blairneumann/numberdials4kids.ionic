@@ -1,4 +1,9 @@
 clock-dials {
+  $text-fill: rgb(255, 223, 0);
+  $text-stroke: rgb(203, 0, 70);
+  $increment: rgba(255, 255, 255, 0.75);
+  $increment-active: rgba(0, 0, 0, 0.25);
+  $increment-disabled: $color-warning;
 
   .clock-group {
     text-align: center;
@@ -8,9 +13,15 @@ clock-dials {
       display: inline-block;
 
       .value {
-        font-family: 'ItimRegular';
-        font-size: $number-fontsize;
         text-align: center;
+        font-family: 'ItimRegular';
+        font-size: $font-size;
+        color: $text-fill;
+        text-shadow:
+          -1px -1px 1px $text-stroke,
+          -1px  1px 1px $text-stroke,
+           1px -1px 1px $text-stroke,
+           1px  1px 1px $text-stroke
       }
 
       .value.hours {
@@ -36,15 +47,15 @@ clock-dials {
 
       .increment, .decrement {
         text-align: center;
-        color: darken($color-bkgd, 20%);
+        color: $increment;
       }
 
       .increment:active, .decrement:active {
-        color: $color-fore;
+        color: $increment-active;
       }
 
       .increment.disabled:active, .decrement.disabled:active {
-        color: $color-warning;
+        color: $increment-disabled;
       }
     }
   }
