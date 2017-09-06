@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { Media, MediaObject } from '@ionic-native/media';
+import 'rxjs/add/operator/map';
 
 const BaseURL = 'https://jtoun1d1qe.execute-api.us-west-2.amazonaws.com/prod/NumberDials4KidsSpeechCache?type=[TYPE]&[TYPE]=[VALUE]';
 
@@ -16,11 +16,15 @@ export const SpeechStatus = {
 @Injectable()
 export class SpeechProvider {
 
-  public status: string;
+  public _status: string;
   private _sound: MediaObject;
 
   constructor(public http: Http, private audio: Media) {
-    this.status = SpeechStatus.Idle;
+    this._status = SpeechStatus.Idle;
+  }
+
+  get status(): string {
+    return this._status;
   }
 
   play(type: string, value: string) {
@@ -32,48 +36,47 @@ export class SpeechProvider {
 
     url = BaseURL.replace(/\[TYPE]/g, type).replace(/\[VALUE]/g, value);
 
-    this.status = SpeechStatus.GetURL;
+    this._status = SpeechStatus.GetURL;
     this.http.get(url)
       .map(response => response.json() || { })
       .subscribe(result => {
+        try {
+          this._status = SpeechStatus.LoadSound;
+          this._sound = this.audio.create(result.url);
 
-        this.status = SpeechStatus.LoadSound;
-        this._sound = this.audio.create(result.url);
-
-        if (this._sound) {
           this._sound.onSuccess.subscribe(this.onSoundSuccess.bind(this));
           this._sound.onError.subscribe(this.onSoundError.bind(this));
 
-          this.status = SpeechStatus.Playing;
+          this._status = SpeechStatus.Playing;
           this._sound.play();
-        } else {
-          this.status = SpeechStatus.Error;
+        } catch (error) {
+          this.onError(error);
         }
       }, error => {
-        this.stop(error);
+        this.onError(error);
       });
   }
 
-  stop(error?: any) {
-    if (error) {
-      console.error(error);
-    }
+  stop() {
+    this._sound.stop();
+    this._sound.release();
+    this._status = SpeechStatus.Idle;
+  }
 
-    if (this._sound) {
-      this._sound.stop();
-      this._sound.release();
-    }
-
-    this.status = error ? SpeechStatus.Error : SpeechStatus.Idle;
+  onError(error) {
+    console.error(error);
+    this._status = SpeechStatus.Error;
   }
 
   private onSoundSuccess() {
     this._sound.release();
-    this.status = SpeechStatus.Idle;
+    this._status = SpeechStatus.Idle;
   }
 
   private onSoundError(error) {
-    this.stop(error);
+    this.onError(error);
+    this._sound.release();
+    this._status = SpeechStatus.Error;
   }
 
 }

@@ -6,7 +6,10 @@ import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
 import { Media } from '@ionic-native/media'
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
 
 import { NumberDials4KidsApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -30,6 +33,7 @@ import { SpeechProvider } from '../providers/speech/speech';
     BrowserAnimationsModule,
     HttpModule,
     IonicModule.forRoot(NumberDials4KidsApp),
+    IonicStorageModule.forRoot(),
   ],
   bootstrap: [ IonicApp ],
   entryComponents: [
@@ -43,6 +47,8 @@ import { SpeechProvider } from '../providers/speech/speech';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Media,
+    File,
+    FileTransfer,
     SpeechProvider,
   ]
 })
