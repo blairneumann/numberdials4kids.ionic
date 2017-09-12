@@ -53,6 +53,10 @@ export class NumberDials {
       }
       if (typeof config.minValue == 'number' && config.minValue >= 0) {
         this._config.minValue = config.minValue;
+
+        if (config.minValue > this._config.defaultValue) {
+          this._config.defaultValue = config.minValue;
+        }
       }
       if (typeof config.maxValue == 'number' && config.maxValue >= -1) {
         this._config.maxValue = config.maxValue;
@@ -158,29 +162,58 @@ export class NumberDials {
 
   /* Resize */
 
+  get canGrow(): boolean {
+    return this._config.maxDigits == -1 || this._dials.length < this._config.maxDigits;
+  }
+
   grow(): NumberDials.Dial {
-    if (this._config.maxDigits == -1 || this._dials.length < this._config.maxDigits) {
-      let dial = new NumberDials.Dial(this, this.dialConfig);
-      this._dials.push(dial);
+    if (this.canGrow) {
+      let dial = new NumberDials.Dial(this, { minValue: 1 });
+
+      if (dial) {
+        this.leftMost.config = { minValue: 0 };
+        this._dials.push(dial);
+      }
+
       return dial;
     }
+
     return null;
   }
 
+  get canShrink(): boolean {
+    return this._dials.length > this._config.minDigits;
+  }
+
   shrink(): NumberDials.Dial {
-    if (this._dials.length > this._config.minDigits) {
+    if (this.canShrink) {
       let dial = this._dials.pop();
+
+      if (dial && this.length > 1) {
+        this.leftMost.config = { minValue: 1 };
+      }
+
       return dial;
     }
+
     return null;
   }
 
   remove(dial: NumberDials.Dial): boolean {
-    let idx = this._dials.indexOf(dial);
-    if (idx > -1 && this._dials.length > this._config.minDigits) {
-      this.dials.splice(idx, 1);
-      return true;
+    if (this.canShrink) {
+      let idx = this._dials.indexOf(dial);
+
+      if (idx > -1) {
+        this._dials.splice(idx, 1);
+
+        if (this.length > 0) {
+          this.leftMost.config = { minValue: 1 };
+        }
+
+        return true;
+      }
     }
+
     return false;
   }
 
@@ -229,7 +262,7 @@ export module NumberDials {
 
     constructor(group: NumberDials, config?: NumberDials.DialConfig | any) {
       this._group = group || null;
-      this._config = new NumberDials.DialConfig();
+      this._config = group ? group.dialConfig : new NumberDials.DialConfig();
 
       if (config) {
         this.config = config;
@@ -250,6 +283,7 @@ export module NumberDials {
 
     set value(value: number) {
       if (value < this.minValue || value > this.maxValue) {
+          console.log(this);
           throw new RangeError(`Value must be between ${this.minValue} and ${this.maxValue}`)
       }
       this._value = value;
@@ -266,6 +300,10 @@ export module NumberDials {
         }
         if (typeof config.minValue == 'number' && config.minValue >= 0) {
           this._config.minValue = config.minValue;
+
+          if (config.minValue > this._config.defaultValue) {
+            this._config.defaultValue = config.minValue;
+          }
         }
         if (typeof config.maxValue == 'number' && config.maxValue >= -1) {
           this._config.maxValue = config.maxValue;
@@ -343,26 +381,29 @@ export module NumberDials {
       let value = this._value + 1;
 
       // simple case
-      if (value <= this._config.maxValue) {
+      if (value <= this.maxValue) {
         this._value = value;
         return true;
       }
 
       // greater than maxValue, so carry
-      let left;
+      let left = this.left;
 
-      if (this.isLeftMost) {
-        left = this._group.grow();
-        if (left) {
-          left.value = 0;
+      if (left) {
+        if (left.increment()) {
+          this._value = 0;
+          return true;
         }
       } else {
-        left = this.left;
-      }
+        if (this._group.grow()) {
+          this._value = 0;
+          return true;
+        }
 
-      if (left && left.increment()) {
-        this._value = 0;
-        return true;
+        if (this.wrap) {
+          this._value = this.minValue;
+          return true;
+        }
       }
 
       return false;
@@ -372,49 +413,56 @@ export module NumberDials {
       let value = this._value - 1;
 
       // when it's safe to simply decrement
-      if (value > this.minValue || value == this.minValue && (this.isOnly || !this.isLeftMost)) {
+      if (value >= this.minValue) {
         this._value = value;
         return true;
       }
 
-      // decrementing the first digit
+      // decrementing below the minValue
+
+      if (this.isOnly) {
+        return false;
+      }
+
       if (this.isLeftMost) {
 
         // remove leading zeros
-        if (value == this.minValue) {
-          let right = this.right;
-
-          // Get rid of any new leading zeros
-          while (right && right.value == this.minValue) {
-
-            // decrementing the 10s place from 10 (for example) should leave a zero
-            if (right.isRightMost)
-              break;
-
-            let next = right.right;
-            right.remove();
-            right = next;
-          }
+        if (this.group.canShrink) {
+          let count = 0;
 
           this._value = value;
 
-          return this.remove();
+          let group = this.group;
+          while (group.length > group.minDigits && group.leftMost.value === 0) {
+            if (group.shrink()) {
+              ++count;
+            }
+          }
+
+          return count > 0;
         }
+
+        if (this.wrap) {
+          this._value = this.maxValue;
+          return true;
+        }
+
+        return false;
       }
 
       // borrow
-      if (!this.isLeftMost && value < this.minValue) {
+      if (value < this.minValue) {
         let left = <NumberDials.Dial>this;
 
         // find a value to borrow from
-        while (left && left.value === left.minValue) {
+        while (left && left.value === 0) {
           left = left.left;
         }
 
         // did we find one?
         if (left) {
 
-          if (left.value > left.minValue) {
+          if (left.value > 0) {
             let right = left;
 
             // bring it across

@@ -188,12 +188,14 @@ describe('NumberDials', () => {
 
   it('should increment from zero to max and decrement back to zero by the left-most digit', () => {
 
-    // start at zero
-    expect(dial.value).toEqual(0);
+    // start at zero, but really start at one
+    expect(group.value).toEqual(0);
+    expect(group.rightMost.increment()).toBeTruthy();
+    expect(group.value).toEqual(1);
 
     // increment up to '999' by incrementing the left-most digit
     for (let idx = 0; idx < power; ++idx) {
-      for (let idy = 1; idy < radix; ++idy) {
+      for (let idy = 2; idy < radix; ++idy) {
         expect(group.leftMost.increment()).toBeTruthy();
       }
       if (idx < power - 1) {
@@ -201,13 +203,14 @@ describe('NumberDials', () => {
       }
     }
 
-    // increment back down to zero by decrementing the left-most digit
+    expect(group.value).toBe(999);
+
+    // decrement back down to zero by decrementing the left-most digit
     for (let idx = 0; idx < power; ++idx) {
-      for (let idy = (idx < power - 1 ? 2 : 1); idy < radix; ++idy) {
-        expect(group.leftMost.decrement()).toBeTruthy();
-      }
-      if (idx < power - 1) {
-        expect(group.shrink()).toBeTruthy();
+      for (let idy = 1; idy < radix; ++idy) {
+        let temp = group.leftMost.decrement();
+        if (!temp) console.log('decrement', group.value, temp, group);
+        expect(temp).toBeTruthy();
       }
     }
 
@@ -219,16 +222,22 @@ describe('NumberDials', () => {
     let value = 0;
 
     // start at zero
-    expect(dial.value).toEqual(0);
+    expect(group.value).toEqual(0);
 
     dial = group.rightMost;
     for (let idx = 1; idx < Math.pow(radix, power); ++idx) {
-      expect(dial.increment()).toBeTruthy();
+      let temp = group.rightMost.increment();
+      if (!temp) console.log('increment', group.value, temp, group)
+      expect(temp).toBeTruthy();
       ++value;
     }
 
+    expect(group.value).toEqual(999);
+
     for (let idx = 1; idx < Math.pow(radix, power); ++idx) {
-      expect(dial.decrement()).toBeTruthy();
+      let temp = dial.decrement();
+      if (!temp) console.log('decrement', group.value, temp, group)
+      expect(temp).toBeTruthy();
       --value;
     }
 
