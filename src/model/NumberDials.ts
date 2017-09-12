@@ -459,21 +459,26 @@ export module NumberDials {
           left = left.left;
         }
 
-        // did we find one?
-        if (left) {
-
-          if (left.value > 0) {
-            let right = left;
-
-            // bring it across
-            do {
-              right = right.right;
-              right.value = right.config.maxValue;
-            } while (right && right != this);
-
-            return left.decrement();
-          }
+        if (!left) {
+          left = this._group.leftMost;
         }
+
+        let right = left;
+
+        // bring it across
+        do {
+          right = right.right;
+          right.value = right.config.maxValue;
+        } while (right && right != this);
+
+        if (left.value > 0 ) {
+          return left.decrement();
+        }
+
+        if (left.wrap) {
+          left.value = left.maxValue;
+          return true;
+        }          
       }
 
       // decrementing a non-first digit below zero
