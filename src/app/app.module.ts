@@ -15,6 +15,7 @@ import { NumberDials4KidsApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { NumberPage } from '../pages/number/number';
 import { ClockPage } from '../pages/clock/clock';
+import { GoPlayPage } from '../pages/go-play/go-play';
 import { NumberDialsComponent } from '../components/number-dials/number-dials';
 import { ClockDialsComponent } from '../components/clock-dials/clock-dials';
 import { SpeechProvider } from '../providers/speech/speech';
@@ -25,6 +26,7 @@ import { SpeechProvider } from '../providers/speech/speech';
     HomePage,
     NumberPage,
     ClockPage,
+    GoPlayPage,
     NumberDialsComponent,
     ClockDialsComponent,
   ],
@@ -41,6 +43,7 @@ import { SpeechProvider } from '../providers/speech/speech';
     HomePage,
     NumberPage,
     ClockPage,
+    GoPlayPage,
   ],
   providers: [
     StatusBar,

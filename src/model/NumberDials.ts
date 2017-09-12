@@ -104,8 +104,16 @@ export class NumberDials {
     return config;
   }
 
+  private _reverseCopy = function() {
+    return this.slice(0).reverse();
+  }
+
   get dials(): NumberDials.Dial[] {
-    return this._dials;
+    let value = this._dials;
+
+    value.reverse = this._reverseCopy;
+
+    return value;
   }
 
   get length(): number {
@@ -369,24 +377,29 @@ export module NumberDials {
         return true;
       }
 
-      // decrementing the first digit to zero
-      if (value == this.minValue && this.isLeftMost) {
-        let right = this.right;
+      // decrementing the first digit
+      if (this.isLeftMost) {
 
-        // Get rid of any new leading zeros
-        while (right && right.value == right.minValue) {
+        // remove leading zeros
+        if (value == this.minValue) {
+          let right = this.right;
 
-          // decrementing the 10s place from 10 (for example) should leave a zero
-          if (right.isRightMost)
-            break;
+          // Get rid of any new leading zeros
+          while (right && right.value == this.minValue) {
 
-          let next = right.right;
-          right.remove();
-          right = next;
+            // decrementing the 10s place from 10 (for example) should leave a zero
+            if (right.isRightMost)
+              break;
+
+            let next = right.right;
+            right.remove();
+            right = next;
+          }
+
+          this._value = value;
+
+          return this.remove();
         }
-
-        this._value = value;
-        return this.remove();
       }
 
       // borrow
@@ -399,16 +412,19 @@ export module NumberDials {
         }
 
         // did we find one?
-        if (left && left.value > left.minValue) {
-          let right = left;
+        if (left) {
 
-          // bring it across
-          do {
-            right = right.right;
-            right.value = right.config.maxValue;
-          } while (right && right != this);
+          if (left.value > left.minValue) {
+            let right = left;
 
-          return left.decrement();
+            // bring it across
+            do {
+              right = right.right;
+              right.value = right.config.maxValue;
+            } while (right && right != this);
+
+            return left.decrement();
+          }
         }
       }
 

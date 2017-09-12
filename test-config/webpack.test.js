@@ -7,13 +7,17 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
-
+  node: {
+    fs: 'empty',
+  },
   module: {
     rules: [{
         test: /\.ts$/,
         loaders: [{
           loader: 'ts-loader',
-        }, 'angular2-template-loader'],
+        },
+        'angular2-template-loader',
+        ],
       },
       {
         test: /\.html$/,
@@ -28,6 +32,7 @@ module.exports = {
 
   plugins: [
     new webpack.ContextReplacementPlugin(
+
       // The (\\|\/) piece accounts for path separators in *nix and Windows
       /(ionic-angular)|(angular(\\|\/)core(\\|\/)@angular)/,
       root('./src'), // location of your src

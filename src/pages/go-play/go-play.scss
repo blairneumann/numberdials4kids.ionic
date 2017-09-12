@@ -1,0 +1,32 @@
+page-go-play {
+  $text-fill: rgb(255, 223, 0);
+  $text-stroke: rgb(203, 0, 70);
+
+  ion-content {
+
+    ion-grid {
+      background-color: rgba(0, 0, 0, 0.50);
+      height: 100%;
+
+      ion-row {
+        height: 100%;
+
+        #goPlay {
+          text-align: center;
+          font-family: 'ItimRegular';
+          font-size: 4.5em;
+          color: $text-fill;
+          text-shadow:
+            -1px -1px 1px $text-stroke,
+            -1px  1px 1px $text-stroke,
+             1px -1px 1px $text-stroke,
+             1px  1px 1px $text-stroke;
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

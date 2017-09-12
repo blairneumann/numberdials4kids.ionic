@@ -1,0 +1,18 @@
+<ion-content (click)="onClose()">
+  <ion-fab top right>
+    <button ion-fab color="dark">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col col-12>
+        <div id="goPlay" (onClick)="onGoPlay()">
+          <p>{{ text.byLine[0] }}</p>
+          <p>{{ text.byLine[1] }}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

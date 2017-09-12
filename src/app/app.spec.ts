@@ -11,7 +11,7 @@ import {
   SplashScreenMock
 } from '../../test-config/mocks-ionic';
 
-import {} from 'jasmine';
+import 'jasmine';
 
 describe('numberdials4kids app', () => {
   let fixture;

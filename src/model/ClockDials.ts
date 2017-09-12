@@ -79,11 +79,11 @@ export class ClockDials {
 
   get dial() {
     return {
-      hours: this._dials.dials[0],
+      hours: this._dials.dials[2],
       minutes10s: this._dials.dials[1],
-      minutes1s: this._dials.dials[2],
+      minutes1s: this._dials.dials[0],
     }
-  } 
+  }
 
   dialAt(idx: number): NumberDials.Dial {
     return this._dials.dialAt(idx);
@@ -96,7 +96,9 @@ export class ClockDials {
   get hours() {
     return {
       number: this.dial.hours.value,
-      string: this.is24hour && this.dial.hours.value < 10 ? `0${this.dial.hours.value}` : this.dial.hours.value.toString(),
+      string: this.is24hour && this.dial.hours.value < 10 ?
+        `0${this.dial.hours.value}` :
+        this.dial.hours.value.toString(),
     }
   }
 
