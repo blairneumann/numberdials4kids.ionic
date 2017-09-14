@@ -11,8 +11,6 @@ export class ClockDialsComponent implements OnInit {
   private _model: ClockDials;
   private _parent: ClockPage;
 
-  disabled = { increment: [ ], decrement: [ ] };
-
   constructor() {
     this._model = new ClockDials({ is24hour: false });
   }
@@ -47,22 +45,12 @@ export class ClockDialsComponent implements OnInit {
   }
 
   increment(idx: number) {
-    if (!this._model.dialAt(this.toModelIndex(idx)).increment()) {
-      this.disabled.increment[idx] = true;
-    }
-
+    this._model.dialAt(this.toModelIndex(idx)).increment();
     this.interact();
   }
 
   decrement(idx: number) {
-    if (!this._model.dialAt(this.toModelIndex(idx)).decrement()) {
-      this.disabled.decrement[idx] = true;
-    }
-
+    this._model.dialAt(this.toModelIndex(idx)).decrement();
     this.interact();
-  }
-
-  mouseup() {
-    this.disabled = { increment: [ ], decrement: [ ] };
   }
 }
