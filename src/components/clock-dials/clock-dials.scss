@@ -6,7 +6,7 @@ clock-dials {
 
   .clock-group {
     text-align: center;
-    margin-top: 4.5em;
+    margin-top: calc(100% * 0.32);
 
     .clock-dial {
       display: inline-block;
