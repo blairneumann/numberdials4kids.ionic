@@ -6,7 +6,18 @@ clock-dials {
 
   .clock-group {
     text-align: center;
+
+  @media (orientation:portrait) {
     margin-top: calc(100% * 0.32);
+  }
+
+  @media (orientation:landscape) and (max-width:801px) {
+    margin-top: calc(100% * 0.06);
+  }
+
+  @media (orientation:landscape) and (min-width:801px) {
+    margin-top: calc(100% * 0.12);
+  }
 
     .clock-dial {
       display: inline-block;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ClockDials } from '../../model/ClockDials';
 import { ClockPage } from '../../pages/clock/clock';
 
@@ -10,6 +10,7 @@ export class ClockDialsComponent implements OnInit {
 
   private _model: ClockDials;
   private _parent: ClockPage;
+  private _resizeTimeout: any;
 
   constructor() {
     this._model = new ClockDials({ is24hour: false });
@@ -20,6 +21,17 @@ export class ClockDialsComponent implements OnInit {
     this._model.dial.hours.value = 12;
     this._model.dial.minutes10s.value = 3;
     this._model.dial.minutes1s.value = 4;
+
+    this.onWindowResize();
+  }
+
+  @HostListener('window:resize') onWindowResize() {
+    if (this._resizeTimeout) {
+      clearTimeout(this._resizeTimeout);
+    }
+    this._resizeTimeout = setTimeout((() => {
+      // resize logic
+    }).bind(this), 500);
   }
 
   get model(): ClockDials {

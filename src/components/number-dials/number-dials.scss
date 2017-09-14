@@ -14,11 +14,24 @@ number-dials {
 
   .number-group {
     text-align: center;
+
+  @media (orientation:portrait) {
     margin-top: calc(100% * 0.28);
+  }
+
+  @media (orientation:landscape) and (max-width:801px) {
+    margin-top: calc(100% * 0.04);
+  }
+
+  @media (orientation:landscape) and (min-width:801px) {
+    margin-top: calc(100% * 0.14);
+  }
 
     .number-dial {
       display: inline-block;
-      margin: 1em;
+      margin-top: calc(100% * 0.02);
+      margin-left: 1em;
+      margin-right: 1em;
 
       .number-unit {
         width: 48px;
@@ -58,19 +71,17 @@ number-dials {
 
       .delimiter {
         position: relative;
-        top: -0.5em;
-        left: 0.25em;
+        top: -0.50em;
+        left: 0.25em
       }
     }
   }
 
   .controls {
-    margin-top: 2em;
 
     .control {
       display: inline-block;
       padding: 0.5em;
-      margin-bottom: 1em;
       width: 4em;
       box-sizing: content-box;
       color: $control-text;
