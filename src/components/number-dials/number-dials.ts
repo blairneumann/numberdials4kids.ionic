@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { NumberDials } from '../../model/NumberDials';
+import { NumberPage } from '../../pages/number/number';
 import { trigger, style, animate, transition } from '@angular/animations';
 
 const MAX_DIGITS = 4;
@@ -30,9 +32,11 @@ const DEFAULT_VALUE = 1;
 export class NumberDialsComponent {
 
   private _model: NumberDials;
-  public disabled = { grow: false, shrink: false, increment: [], decrement: [] }
+  private _parent: NumberPage;
 
-  constructor() {
+  public disabled = new DisabledControlFlags();
+
+  constructor(private platform: Platform) {
     let config = new NumberDials.Config();
     config.maxDigits = MAX_DIGITS;
     config.minDigits = MIN_DIGITS;
@@ -44,12 +48,20 @@ export class NumberDialsComponent {
     return this._model;
   }
 
+  set parent(page: NumberPage) {
+    this._parent = page;
+  }
+
   get value(): number {
     return this._model.value;
   }
 
   get delimiter(): string {
     return ',';
+  }
+
+  get controls(): string {
+    return this.platform.isLandscape() ? 'side' : 'top';
   }
 
   grow(): boolean {
@@ -71,7 +83,7 @@ export class NumberDialsComponent {
   }
 
   mouseup() {
-    this.disabled = { grow: false, shrink: false, increment: [], decrement: [] };
+    this.disabled = new DisabledControlFlags();
   }
 
   private toModelIndex(idx: number) {
@@ -89,4 +101,18 @@ export class NumberDialsComponent {
       this.disabled.decrement[idx] = true;
     }
   }
+}
+
+class DisabledControlFlags {
+  grow: boolean;
+  shrink: boolean;
+  increment: Array<boolean>;
+  decrement: Array<boolean>;
+
+  constructor() {
+    this.grow = false;
+    this.shrink = false;
+    this.increment = [ ];
+    this.decrement = [ ];
+  };
 }

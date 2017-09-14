@@ -15,7 +15,9 @@ export class NumberPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
       private speech: SpeechProvider) { }
 
-  ionViewDidLoad() { }
+  ionViewDidLoad() {
+    this.numberDials.parent = this;
+  }
 
   onBack() {
     this.navCtrl.pop();

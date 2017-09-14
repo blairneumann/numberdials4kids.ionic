@@ -77,26 +77,29 @@ number-dials {
     }
   }
 
-  .controls {
+  .controls-side {
+    display: inline-block;
+  }
 
-    .control {
-      display: inline-block;
-      padding: 0.5em;
-      width: 4em;
-      box-sizing: content-box;
-      color: $control-text;
-      border: 1px solid $control-stroke;
-    }
+  .control {
+    position: relative;
+    top: -$font-size * 0.6;
+    display: inline-block;
+    padding: 0.5em;
+    width: 4em;
+    box-sizing: content-box;
+    color: $control-text;
+    border: 1px solid $control-stroke;
+  }
 
-    .control:active {
-      background-color: $control-fill-active;
-      border: 1px solid $control-stroke-active;
-    }
+  .control:active {
+    background-color: $control-fill-active;
+    border: 1px solid $control-stroke-active;
+  }
 
-    .control.disabled:active {
-      color: $control-text-disabled;
-      background-color: $control-fill-disabled;
-      border: 1px solid $control-stroke-disabled;
-    }
+  .control.disabled:active {
+    color: $control-text-disabled;
+    background-color: $control-fill-disabled;
+    border: 1px solid $control-stroke-disabled;
   }
 }

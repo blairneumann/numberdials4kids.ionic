@@ -1,10 +1,15 @@
 <div class='number-group'>
-  <div class='controls'>
+  <div class='controls controls-top' *ngIf='controls == "top"'>
     <div class='control grow' [class.disabled]='disabled.grow' (click)='grow()' (mouseup)='mouseup()'>
       <span class='fa fa-plus'></span>
     </div>
     <div class='control shrink' [class.disabled]='disabled.shrink' (click)='shrink()' (mouseup)='mouseup()'>
       <span class='fa fa-minus'></span>
+    </div>
+  </div>
+  <div class='controls controls-side' *ngIf='controls == "side"'>
+    <div class='control grow' [class.disabled]='disabled.grow' (click)='grow()' (mouseup)='mouseup()'>
+      <span class='fa fa-plus'></span>
     </div>
   </div>
   <div class='number-dial' *ngFor='let dial of model.dials.reverse(); let idx = index' (swipeup)='increment(idx)' (swipedown)='decrement(idx)' [@dialInOut]>
@@ -20,5 +25,10 @@
       </div>
     </div>
     <div class='delimiter' *ngIf='model.dials.length == 4 && idx == 0'>{{ delimiter }}</div>
+  </div>
+  <div class='controls controls-side' *ngIf='controls == "side"'>
+    <div class='control shrink' [class.disabled]='disabled.shrink' (click)='shrink()' (mouseup)='mouseup()'>
+      <span class='fa fa-minus'></span>
+    </div>
   </div>
 </div>
