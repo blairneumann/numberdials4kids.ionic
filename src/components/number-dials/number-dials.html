@@ -9,13 +9,13 @@
   </div>
   <div class='number-dial' *ngFor='let dial of model.dials.reverse(); let idx = index' (swipeup)='increment(idx)' (swipedown)='decrement(idx)' [@dialInOut]>
     <div class='number-unit'>
-      <div class='increment' [class.disabled]='disabled.increment' (click)='increment(idx)' (mouseup)='mouseup()'>
+      <div class='increment' [class.disabled]='disabled.increment[idx]' (click)='increment(idx)' (mouseup)='mouseup()'>
         <span class='fa fa-chevron-up'></span>
       </div>
       <div class='value'>
         {{ dial.value }}
       </div>
-      <div class='decrement' [class.disabled]='disabled.decrement' (click)='decrement(idx)' (mouseup)='mouseup()'>
+      <div class='decrement' [class.disabled]='disabled.decrement[idx]' (click)='decrement(idx)' (mouseup)='mouseup()'>
         <span class='fa fa-chevron-down'></span>
       </div>
     </div>

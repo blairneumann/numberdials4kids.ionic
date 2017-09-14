@@ -478,7 +478,7 @@ export module NumberDials {
         if (left.wrap) {
           left.value = left.maxValue;
           return true;
-        }          
+        }
       }
 
       // decrementing a non-first digit below zero

@@ -30,7 +30,7 @@ const DEFAULT_VALUE = 1;
 export class NumberDialsComponent {
 
   private _model: NumberDials;
-  disabled = { grow: false, shrink: false, increment: false, decrement: false };
+  public disabled = { grow: false, shrink: false, increment: [], decrement: [] }
 
   constructor() {
     let config = new NumberDials.Config();
@@ -52,22 +52,6 @@ export class NumberDialsComponent {
     return ',';
   }
 
-  private toModelIndex(idx: number) {
-    return this._model.length - 1 - idx;
-  }
-
-  increment(idx: number) {
-    if (!this._model.dialAt(this.toModelIndex(idx)).increment()) {
-      this.disabled.increment = true;
-    }
-  }
-
-  decrement(idx: number) {
-    if (!this._model.dialAt(this.toModelIndex(idx)).decrement()) {
-      this.disabled.decrement = true;
-    }
-  }
-
   grow(): boolean {
     if (this._model.length < MAX_DIGITS) {
       return null != this._model.grow();
@@ -87,8 +71,22 @@ export class NumberDialsComponent {
   }
 
   mouseup() {
-    for (let value in this.disabled) {
-      this.disabled[value] = false;
+    this.disabled = { grow: false, shrink: false, increment: [], decrement: [] };
+  }
+
+  private toModelIndex(idx: number) {
+    return this._model.length - 1 - idx;
+  }
+
+  increment(idx: number) {
+    if (!this._model.dialAt(this.toModelIndex(idx)).increment()) {
+      this.disabled.increment[idx] = true;
+    }
+  }
+
+  decrement(idx: number) {
+    if (!this._model.dialAt(this.toModelIndex(idx)).decrement()) {
+      this.disabled.decrement[idx] = true;
     }
   }
 }
