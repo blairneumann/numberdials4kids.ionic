@@ -13,9 +13,7 @@ export class GoPlayPage {
     this._text = '¡¡ Hey,\ngo play !!';
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GoPlayPage');
-  }
+  ionViewDidLoad() { }
 
   get text() {
     return {
