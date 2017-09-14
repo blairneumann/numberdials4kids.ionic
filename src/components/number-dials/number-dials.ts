@@ -65,6 +65,8 @@ export class NumberDialsComponent {
   }
 
   grow(): boolean {
+    this.interact();
+
     if (this._model.length < MAX_DIGITS) {
       return null != this._model.grow();
     }
@@ -74,6 +76,8 @@ export class NumberDialsComponent {
   }
 
   shrink(): boolean {
+    this.interact();
+
     if (this._model.length > MIN_DIGITS) {
       return null != this._model.shrink();
     }
@@ -90,16 +94,26 @@ export class NumberDialsComponent {
     return this._model.length - 1 - idx;
   }
 
+  private interact() {
+    if (this._parent) {
+      this._parent.interact();
+    }
+  }
+
   increment(idx: number) {
     if (!this._model.dialAt(this.toModelIndex(idx)).increment()) {
       this.disabled.increment[idx] = true;
     }
+
+    this.interact();
   }
 
   decrement(idx: number) {
     if (!this._model.dialAt(this.toModelIndex(idx)).decrement()) {
       this.disabled.decrement[idx] = true;
     }
+
+    this.interact();
   }
 }
 

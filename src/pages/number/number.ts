@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { NumberDialsComponent } from '../../components/number-dials/number-dials';
 import { SpeechProvider, SpeechStatus } from '../../providers/speech/speech';
+import { GoPlayPage } from '../go-play/go-play';
 
 @IonicPage()
 @Component({
@@ -10,10 +11,15 @@ import { SpeechProvider, SpeechStatus } from '../../providers/speech/speech';
 })
 export class NumberPage {
 
+  private _interactionCount: number;
+
   @ViewChild(NumberDialsComponent) numberDials: NumberDialsComponent;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-      private speech: SpeechProvider) { }
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController,
+      private speech: SpeechProvider) {
+
+    this._interactionCount = 0;
+  }
 
   ionViewDidLoad() {
     this.numberDials.parent = this;
@@ -21,6 +27,16 @@ export class NumberPage {
 
   onBack() {
     this.navCtrl.pop();
+  }
+
+  public interact() {
+    ++this._interactionCount;
+
+    if (this._interactionCount % 10 === 0) {
+      setTimeout(() => {
+        this.modalCtrl.create(GoPlayPage).present({ animate: false });
+      }, 800);
+    }
   }
 
   get iconPlayPause(): string {
