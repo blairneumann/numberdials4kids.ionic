@@ -28,7 +28,24 @@ page-home {
     }
 
     .mode-button.number {
-      margin-top: 1em;
+
+
+  @media (orientation: portrait) and (max-width: 801px) {
+    margin-top: calc(100% * 0.42);
+  }
+
+  @media (orientation: portrait) and (min-width: 801px) {
+    margin-top: calc(100% * 0.84);
+  }
+
+  @media (orientation: landscape) and (max-width: 801px) {
+    margin-top: calc(100% * 0.06);
+  }
+
+  @media (orientation: landscape) and (min-width: 801px) {
+    margin-top: calc(100% * 0.42);
+  }
+
       letter-spacing: 0.10em;
     }
 
