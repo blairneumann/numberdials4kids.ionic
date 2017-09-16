@@ -3,6 +3,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import Hammer from 'hammerjs';
+
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +23,13 @@ import { NumberDialsComponent } from '../components/number-dials/number-dials';
 import { ClockDialsComponent } from '../components/clock-dials/clock-dials';
 import { SpeechProvider } from '../providers/speech/speech';
 import { SpeechcacheProvider } from '../providers/speechcache/speechcache';
+
+
+export class MyHammerConfig extends HammerGestureConfig  {
+  overrides = <any>{
+    'swipe': { direction: Hammer.DIRECTION_VERTICAL }
+  }
+}
 
 @NgModule({
   declarations: [
@@ -55,6 +65,7 @@ import { SpeechcacheProvider } from '../providers/speechcache/speechcache';
     FileTransfer,
     SpeechProvider,
     SpeechcacheProvider,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
   ]
 })
 export class AppModule {}
