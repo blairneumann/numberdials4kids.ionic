@@ -19,6 +19,7 @@ import { GoPlayPage } from '../pages/go-play/go-play';
 import { NumberDialsComponent } from '../components/number-dials/number-dials';
 import { ClockDialsComponent } from '../components/clock-dials/clock-dials';
 import { SpeechProvider } from '../providers/speech/speech';
+import { SpeechcacheProvider } from '../providers/speechcache/speechcache';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { SpeechProvider } from '../providers/speech/speech';
     File,
     FileTransfer,
     SpeechProvider,
+    SpeechcacheProvider,
   ]
 })
 export class AppModule {}

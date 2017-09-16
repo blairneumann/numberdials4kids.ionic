@@ -30,8 +30,8 @@ number-dials {
     .number-dial {
       display: inline-block;
       margin-top: calc(100% * 0.02);
-      margin-left: 1em;
-      margin-right: 1em;
+      margin-left: 0.5em;
+      margin-right: 0.5em;
 
       .number-unit {
         width: 48px;
@@ -72,7 +72,6 @@ number-dials {
       .delimiter {
         position: relative;
         top: -0.50em;
-        left: 0.25em
       }
     }
   }

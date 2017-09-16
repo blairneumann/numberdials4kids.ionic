@@ -1,8 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { ClockDialsComponent } from '../../components/clock-dials/clock-dials';
-import { SpeechProvider, SpeechStatus } from '../../providers/speech/speech';
+import { SpeechProvider } from '../../providers/speech/speech';
 import { GoPlayPage } from '../go-play/go-play';
+
+const IconPlay = 'play';
+const IconPause = 'pause';
 
 @IonicPage()
 @Component({
@@ -12,6 +15,7 @@ import { GoPlayPage } from '../go-play/go-play';
 export class ClockPage {
 
   private _interactionCount: number;
+  private _iconPlayPause: string;
 
   @ViewChild(ClockDialsComponent) clockDials: ClockDialsComponent;
 
@@ -19,6 +23,7 @@ export class ClockPage {
       private speech: SpeechProvider) {
 
     this._interactionCount = 0;
+    this._iconPlayPause = IconPlay;
   }
 
   ionViewDidLoad() {
@@ -38,10 +43,19 @@ export class ClockPage {
   }
 
   get iconPlayPause(): string {
-    return this.speech.playStatus ? 'play' : 'pause';
+    return this._iconPlayPause;
+  }
+
+  public onPlayComplete() {
+    this._iconPlayPause = IconPlay;
   }
 
   onPlayPause() {
-    this.speech.play('clock', this.clockDials.value);
+    if (this.speech.canPlay) {
+      this._iconPlayPause = IconPause;
+      this.speech.play('clock', this.clockDials.value, this.onPlayComplete.bind(this));
+    } else {
+      this.speech.stop(this.onPlayComplete.bind(this));
+    }
   }
 }
