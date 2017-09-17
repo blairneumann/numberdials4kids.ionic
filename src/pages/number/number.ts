@@ -49,7 +49,6 @@ export class NumberPage {
   }
 
   public onComplete(value: string) {
-    console.log('onComplete', value);
     this._iconPlayPause = IconPlay;
   }
 

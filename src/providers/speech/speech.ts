@@ -31,8 +31,6 @@ export class SpeechProvider {
   }
 
   set callback(callback: Function) {
-    console.log('setCallback', callback);
-
     if (callback) {
       this._callback = callback;
     }
@@ -51,8 +49,6 @@ export class SpeechProvider {
   }
 
   play(type: string, value: string) {
-    console.log('play', type, value);
-
     this._status = SpeechStatus.GetURL;
     this.cache.get(type, value).then(uri => {
       uri = uri.replace(/^file:\/\//, '');
@@ -60,7 +56,6 @@ export class SpeechProvider {
       try {
         this._status = SpeechStatus.LoadSound;
         this._sound = this.audio.create(uri);
-
         this._sound.onSuccess.subscribe(this.onSoundSuccess.bind(this));
         this._sound.onError.subscribe(this.onSoundError.bind(this));
 
@@ -75,8 +70,6 @@ export class SpeechProvider {
   }
 
   stop() {
-    console.log('stop');
-
     if (this._sound) {
       this._sound.stop();
       this._sound.release();
@@ -90,8 +83,6 @@ export class SpeechProvider {
   }
 
   onError(error) {
-    console.error(error);
-
     if (this._sound) {
       this._sound.release();
     }
@@ -104,8 +95,6 @@ export class SpeechProvider {
   }
 
   private onSoundSuccess() {
-    console.log('onSoundSuccess');
-
     this._sound.release();
     this._status = SpeechStatus.Idle;
 

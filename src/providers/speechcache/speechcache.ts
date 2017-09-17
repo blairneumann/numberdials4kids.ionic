@@ -28,8 +28,6 @@ export class SpeechcacheProvider {
   }
 
   get(type: string, value: string): Promise<string> {
-    console.log('get', type, value);
-
     value = this.normalizeValue(type, value);
 
     return new Promise((resolve, reject) => {
