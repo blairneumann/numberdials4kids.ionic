@@ -43,12 +43,10 @@ export class ClockPage {
   }
 
   get iconPlayPause(): string {
-    console.log('iconPlayPause', this._iconPlayPause);
     return this._iconPlayPause;
   }
 
   public onComplete(value: string) {
-    console.log('onComplete', value);
     this._iconPlayPause = IconPlay;
   }
 
@@ -56,12 +54,5 @@ export class ClockPage {
     this.speech.callback = this.onComplete.bind(this);
     this._iconPlayPause = IconPause;
     this.speech.playPause('clock', this.clockDials.value);
-
-    // if (this.speech.canPlay) {
-    //   this._iconPlayPause = IconPause;
-    //   this.speech.play('clock', this.clockDials.value, this.onPlayComplete.bind(this));
-    // } else {
-    //   this.speech.stop(this.onPlayComplete.bind(this));
-    // }
   }
 }

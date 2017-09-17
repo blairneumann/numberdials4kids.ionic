@@ -57,12 +57,5 @@ export class NumberPage {
     this.speech.callback = this.onComplete.bind(this);
     this._iconPlayPause = IconPause;
     this.speech.playPause('number', this.numberDials.value.toString());
-
-    // if (this.speech.canPlay) {
-    //   this._iconPlayPause = IconPause;
-    //   this.speech.play('number', this.numberDials.value.toString(), this.onPlayComplete.bind(this));
-    // } else {
-    //   this.speech.stop(this.onPlayComplete.bind(this));
-    // }
   }
 }

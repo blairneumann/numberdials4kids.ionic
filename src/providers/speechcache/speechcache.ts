@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Storage } from '@ionic/storage';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import 'rxjs/add/operator/map';
@@ -13,10 +12,10 @@ export class SpeechcacheProvider {
   private BaseDir: string;
   private transfer: FileTransferObject;
 
-  constructor(private http: Http, private storage: Storage,
+  constructor(private http: Http,
       private fileTransfer: FileTransfer, private file: File) {
 
-    this.BaseDir = this.file.dataDirectory; // .replace(/^file:\/\//, '');
+    this.BaseDir = this.file.cacheDirectory;
     this.transfer = this.fileTransfer.create();
   }
 
@@ -37,14 +36,10 @@ export class SpeechcacheProvider {
       this.getFromFileSystem(type, value).then(uri => {
         resolve(uri);
       }, error => {
-        this.getFromStorage(type, value).then(uri => {
-          resolve(uri);
+        this.getFromRemoteCache(type, value).then(url => {
+          resolve(url);
         }, error => {
-          this.getFromRemoteCache(type, value).then(url => {
-            resolve(url);
-          }, error => {
-            reject(error);
-          });
+          reject(error);
         });
       });
     });
@@ -54,30 +49,24 @@ export class SpeechcacheProvider {
   // ** File System **
 
   private makeFilePath(type: string, value: string): string {
-    return `${this.BaseDir}${type}`;
+    return this.BaseDir;
   }
 
   private makeFileName(type: string, value: string): string {
-    return `${value}.mp3`;
+    return `${type}/${value}.mp3`;
   }
 
   private makeFileUri(type: string, value: string): string {
-    return `${this.makeFilePath(type, value)}/${this.makeFileName(type, value)}`;
+    return `${this.makeFilePath(type, value)}${this.makeFileName(type, value)}`;
   }
 
   private getFromFileSystem(type: string, value: string): Promise<string> {
-    console.log('getFromFileSystem', type, value);
+    let path = this.makeFilePath(type, value);
+    let name = this.makeFileName(type, value);
 
     return new Promise((resolve, reject) => {
-      let path = this.makeFilePath(type, value);
-      let name = this.makeFileName(type, value);
-
-      console.log('getFromFileSystem', path, name);
-
       this.file.checkFile(path, name).then(exists => {
         let uri = this.makeFileUri(type, value);
-
-        console.log('getFromFileSystem', uri);
 
         if (exists) {
           resolve(uri);
@@ -85,81 +74,20 @@ export class SpeechcacheProvider {
           reject(Error(`File not found: ${uri}`));
         }
       }, error => {
-        console.log('getFromFileSystem', 'reject', error.name, error.message);
         reject(error);
       });
-    });
-  }
-
-  private copyToFileSystem(type: string, value: string, content: any): Promise<string> {
-    console.log('copyToFileSystem', type, value);
-
-    return new Promise((resolve, reject) => {
-      this.file.writeFile(this.makeFilePath(type, value), this.makeFileName(type, value), content).then(entry => {
-        resolve(entry.toURL());
-      }, error => {
-        reject(error);
-      })
     });
   }
 
   private downloadToFileSystem(type: string, value: string, url: string): Promise<string> {
-    console.log('downloadToFileSystem', type, value);
+    let uri = this.makeFileUri(type, value);
 
     return new Promise((resolve, reject) => {
-      this.transfer.download(url, this.makeFileUri(type, value)).then(entry => {
+      this.transfer.download(url, uri).then(entry => {
         resolve(entry.toURL());
-        this.copyToStorage(type, value).then(uri => {
-          console.log('downloadToFileSystem', 'copyToStorage', uri);
-        });
       }, error => {
         reject(error);
       })
-    });
-  }
-
-
-  // ** Storage **
-
-  private makeStorageKey(type: string, value: string): string {
-    return `${type}|${value}`;
-  }
-
-  private getFromStorage(type: string, value: string): Promise<string> {
-    console.log('getFromStorage', type, value);
-
-    return new Promise((resolve, reject) => {
-      let key = this.makeStorageKey(type, value);
-
-      this.storage.get(key).then(content => {
-        if (content == null) {
-          reject(Error(`getFromStorage: key not found: ${key}`));
-        } else {
-          this.copyToFileSystem(type, value, content).then(temp => {
-            resolve(content);
-          }, error => {
-            reject(error);
-          });
-        }
-      }, error => {
-        reject(error);
-      });
-    });
-  }
-
-  private copyToStorage(type: string, value: string): Promise<string> {
-    console.log('copyToStorage', type, value);
-
-    return new Promise((resolve, reject) => {
-      this.file.readAsText(this.makeFilePath(type, value), this.makeFileName(type, value)).then(content => {
-        this.storage.set(this.makeStorageKey(type, value), content).then(() => {
-          resolve(this.makeFileUri(type, value));
-        }, error => {
-          reject(error);
-        })
-      }, error => {
-        reject(error);
-      });
     });
   }
 
@@ -171,10 +99,10 @@ export class SpeechcacheProvider {
   }
 
   private getFromRemoteCache(type: string, value: string): Promise<string> {
-    console.log('getFromRemoteCache', type, value);
+    let url = this.makeUrl(type, value);
 
     return new Promise((resolve, reject) => {
-      this.http.get(this.makeUrl(type, value))
+      this.http.get(url)
         .map(response => response.json() || { })
         .subscribe(result => {
           this.downloadToFileSystem(type, value, result.url).then(uri => {
