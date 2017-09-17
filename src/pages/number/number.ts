@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { NumberDialsComponent } from '../../components/number-dials/number-dials';
 import { SpeechProvider, SpeechStatus } from '../../providers/speech/speech';
@@ -15,12 +15,12 @@ const IconPause = 'pause';
 export class NumberPage {
 
   private _interactionCount: number;
-  _iconPlayPause: string;
+  private _iconPlayPause: string;
 
   @ViewChild(NumberDialsComponent) numberDials: NumberDialsComponent;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
-      private speech: SpeechProvider) {
+      private speech: SpeechProvider, private cd: ChangeDetectorRef) {
 
     this._interactionCount = 0;
     this._iconPlayPause = IconPlay;
@@ -50,6 +50,7 @@ export class NumberPage {
 
   public onComplete(value: string) {
     this._iconPlayPause = IconPlay;
+    this.cd.detectChanges();
   }
 
   onPlayPause() {

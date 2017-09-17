@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { ClockDialsComponent } from '../../components/clock-dials/clock-dials';
 import { SpeechProvider } from '../../providers/speech/speech';
@@ -20,7 +20,7 @@ export class ClockPage {
   @ViewChild(ClockDialsComponent) clockDials: ClockDialsComponent;
 
   constructor(private navCtrl: NavController, private modalCtrl: ModalController,
-      private speech: SpeechProvider) {
+      private speech: SpeechProvider, private cd: ChangeDetectorRef) {
 
     this._interactionCount = 0;
     this._iconPlayPause = IconPlay;
@@ -48,6 +48,7 @@ export class ClockPage {
 
   public onComplete(value: string) {
     this._iconPlayPause = IconPlay;
+    this.cd.detectChanges();
   }
 
   onPlayPause() {
