@@ -103,11 +103,15 @@ export class SpeechcacheProvider {
       this.http.get(url)
         .map(response => response.json() || { })
         .subscribe(result => {
-          this.downloadToFileSystem(type, value, result.url).then(uri => {
-            resolve(uri);
-          }, error => {
-            reject(error);
+          resolve(result.url);
+          this.downloadToFileSystem(type, value, result.url).catch(error => {
+            console.error(error);
           });
+          // this.downloadToFileSystem(type, value, result.url).then(uri => {
+          //   resolve(uri);
+          // }, error => {
+          //   reject(error);
+          // });
         }, error => {
           reject(error);
         });
