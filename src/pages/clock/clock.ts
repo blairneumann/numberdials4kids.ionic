@@ -30,10 +30,6 @@ export class ClockPage {
     this.clockDials.parent = this;
   }
 
-  ionViewWillEnter() {
-    this.speech.warmup();
-  }
-
   onBack() {
     this.navCtrl.pop();
   }

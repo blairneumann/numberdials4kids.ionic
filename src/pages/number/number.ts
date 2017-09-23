@@ -30,10 +30,6 @@ export class NumberPage {
     this.numberDials.parent = this;
   }
 
-  ionViewWillEnter() {
-    this.speech.warmup();
-  }
-
   onBack() {
     this.navCtrl.pop();
   }

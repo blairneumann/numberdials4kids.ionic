@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { SpeechProvider } from '../providers/speech/speech';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,7 +14,8 @@ export class NumberDials4KidsApp {
 
   rootPage: any = HomePage;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, private speech: SpeechProvider,
+      public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
   }
 
@@ -23,6 +25,11 @@ export class NumberDials4KidsApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.hide();
       this.splashScreen.hide();
+
+      this.speech.warmup();
+      document.addEventListener('resume', () => {
+        this.speech.warmup();
+      }, false);
     });
   }
 

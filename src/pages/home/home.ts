@@ -3,7 +3,6 @@ import { NavController } from 'ionic-angular';
 
 import { NumberPage } from '../number/number';
 import { ClockPage } from '../clock/clock';
-import { SpeechProvider } from '../../providers/speech/speech';
 
 @Component({
   selector: 'page-home',
@@ -12,13 +11,9 @@ import { SpeechProvider } from '../../providers/speech/speech';
 export class HomePage {
   pages = [ NumberPage, ClockPage ];
 
-  constructor(public navCtrl: NavController, private speech: SpeechProvider) { }
+  constructor(public navCtrl: NavController) { }
 
   navigateTo(idx: number) {
     this.navCtrl.push(this.pages[idx]);
-  }
-
-  ionViewWillEnter() {
-    this.speech.warmup();
   }
 }
