@@ -27,6 +27,19 @@ export class SpeechcacheProvider {
     return value;
   }
 
+  warmup(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.makeUrl('number', '0'))
+        .map(response => response.json() || { })
+        .subscribe(result => {
+          resolve('remote cache warmed-up');
+          console.log('remote cache warmed-up');
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
   get(type: string, value: string): Promise<string> {
     value = this.normalizeValue(type, value);
 
@@ -104,14 +117,10 @@ export class SpeechcacheProvider {
         .map(response => response.json() || { })
         .subscribe(result => {
           resolve(result.url);
+
           this.downloadToFileSystem(type, value, result.url).catch(error => {
             console.error(error);
           });
-          // this.downloadToFileSystem(type, value, result.url).then(uri => {
-          //   resolve(uri);
-          // }, error => {
-          //   reject(error);
-          // });
         }, error => {
           reject(error);
         });

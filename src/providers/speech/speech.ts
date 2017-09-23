@@ -48,6 +48,10 @@ export class SpeechProvider {
     }
   }
 
+  warmup(): Promise<string> {
+    return this.cache.warmup();
+  }
+
   play(type: string, value: string) {
     this._status = SpeechStatus.GetURL;
     this.cache.get(type, value).then(uri => {

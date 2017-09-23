@@ -1,7 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { NumberDialsComponent } from '../../components/number-dials/number-dials';
-import { SpeechProvider, SpeechStatus } from '../../providers/speech/speech';
+import { SpeechProvider } from '../../providers/speech/speech';
 import { GoPlayPage } from '../go-play/go-play';
 
 const IconPlay = 'play';
@@ -28,6 +28,10 @@ export class NumberPage {
 
   ionViewDidLoad() {
     this.numberDials.parent = this;
+  }
+
+  ionViewWillEnter() {
+    this.speech.warmup();
   }
 
   onBack() {
