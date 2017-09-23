@@ -49,7 +49,7 @@ export class SpeechProvider {
   }
 
   warmup(): Promise<string> {
-    return this.cache.warmup();
+    return this.cache.warmup().catch(error => console.log('warmup', error));
   }
 
   play(type: string, value: string) {
@@ -64,6 +64,7 @@ export class SpeechProvider {
         this._sound.onError.subscribe(this.onSoundError.bind(this));
 
         this._status = SpeechStatus.Playing;
+        this._sound.setVolume(1.0);
         this._sound.play();
       } catch (error) {
         this.onError(error);
