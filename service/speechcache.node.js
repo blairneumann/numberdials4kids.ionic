@@ -99,7 +99,7 @@ exports.handler = function (event, context, callback) {
           TextType: 'text',
           OutputFormat: 'mp3',
           SampleRate: '8000',
-          VoiceId: 'Joanna',
+          VoiceId: 'Justin',
         };
 
         console.log('Synthesize Speech: ' + JSON.stringify(pollyParams));
