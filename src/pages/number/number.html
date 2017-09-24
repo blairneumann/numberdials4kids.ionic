@@ -8,7 +8,7 @@
   <number-dials></number-dials>
 
   <ion-fab bottom right>
-    <button ion-fab color="dark" (click)="onPlayPause()">
+    <button ion-fab [disabled]="!online" [color]="colorPlayPause" (click)="onPlayPause()">
       <ion-icon [name]="iconPlayPause"></ion-icon>
     </button>
   </ion-fab>

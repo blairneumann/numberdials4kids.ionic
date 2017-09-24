@@ -10,6 +10,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
+import { Network } from '@ionic-native/network';
 import { Media } from '@ionic-native/media'
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -60,6 +61,7 @@ export class MyHammerConfig extends HammerGestureConfig  {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    Network,
     Media,
     File,
     FileTransfer,
