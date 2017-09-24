@@ -93,8 +93,8 @@
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-media": {},
-            "cordova-plugin-file-transfer": {},
-            "cordova-plugin-file": {}
+            "cordova-plugin-file": {},
+            "cordova-plugin-file-transfer": {}
         },
         "platforms": [
             "android",
