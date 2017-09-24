@@ -27,7 +27,7 @@ import { SpeechcacheProvider } from '../providers/speechcache/speechcache';
 
 export class MyHammerConfig extends HammerGestureConfig  {
   overrides = <any>{
-    'swipe': { direction: Hammer.DIRECTION_VERTICAL }
+    'swipe': { direction: Hammer.DIRECTION_ALL }
   }
 }
 
