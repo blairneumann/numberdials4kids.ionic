@@ -1,22 +1,19 @@
 clock-dials {
   $text-fill: rgb(255, 223, 0);
   $text-stroke: rgb(203, 0, 70);
-  $increment: rgba(255, 255, 255, 0.75);
-  $increment-active: rgba(0, 0, 0, 0.25);
+  $increment: rgba(36, 183, 244, 0.5);
+  $increment-active: rgba(36, 183, 244, 1.0);
 
   .clock-group {
+    position: relative;
     text-align: center;
 
-  @media (orientation:portrait) {
-    margin-top: calc(100% * 0.32);
+  @media (orientation: portrait) and (min-height: 568px) {
+    top: $font-size;
   }
 
-  @media (orientation:landscape) and (max-width:801px) {
-    margin-top: calc(100% * 0.06);
-  }
-
-  @media (orientation:landscape) and (min-width:801px) {
-    margin-top: calc(100% * 0.12);
+  @media (orientation: portrait) and (min-height: 732px) {
+    top: calc(7.5em);
   }
 
     .clock-dial {
@@ -31,7 +28,7 @@ clock-dials {
           -1px -1px 1px $text-stroke,
           -1px  1px 1px $text-stroke,
            1px -1px 1px $text-stroke,
-           1px  1px 1px $text-stroke
+           1px  1px 1px $text-stroke;
       }
 
       .value.hours {
@@ -52,17 +49,21 @@ clock-dials {
 
       .clock-colon {
         position: relative;
-        top: -0.50em;
+        top: -0.85em; // calc(-1em + 8px);
         left: -0.25em;
       }
 
       .increment, .decrement {
         text-align: center;
         color: $increment;
+        line-height: $font-size;
+        border: 1px solid rgba(0,0,0,0);
+        border-radius: 4px;
       }
 
       .increment:active, .decrement:active {
         color: $increment-active;
+        border: 1px solid $increment-active;
       }
     }
   }

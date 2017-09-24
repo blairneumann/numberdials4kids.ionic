@@ -1,60 +1,60 @@
 number-dials {
   $text-fill: rgb(255, 251, 183);
   $text-stroke: rgb(226, 0, 47);
-  $increment: rgba(0, 0, 0, 0.25);
-  $increment-active: rgba(0, 0, 0, 0.75);
+  $increment: rgba(16, 175, 160, 0.5);
+  $increment-active: rgba(16, 175, 160, 1.0);
   $increment-disabled: $color-warning;
-  $control-text: rgba(0, 0, 0, 0.40);
-  $control-stroke: rgba(0, 0, 0, 0.00);
-  $control-fill-active: rgba(0, 0, 0, 0.05);
-  $control-stroke-active: rgba(0, 0, 0, 0.75);
-  $control-text-disabled: $color-warning;
-  $control-fill-disabled: lighten($color-warning, 40%);
-  $control-stroke-disabled: $color-warning;
+  $grow: rgba(130, 184, 54, 0.5);
+  $grow-active: rgba(130, 184, 54, 1.0);
+  $shrink: rgba(101, 145, 208, 0.5);
+  $shrink-active: rgba(101, 145, 208, 1.0);
+  $control-disabled: $color-warning;
 
   .number-group {
+    position: relative;
     text-align: center;
 
-  @media (orientation:portrait) {
-    margin-top: calc(100% * 0.28);
-  }
+@media (orientation: portrait) and (min-height: 568px) {
+    top: calc(2.0em);
+}
 
-  @media (orientation:landscape) and (max-width:801px) {
-    margin-top: calc(100% * 0.04);
-  }
+@media (orientation: portrait) and (min-height: 732px) {
+    top: calc(7.5em);
+}
 
-  @media (orientation:landscape) and (min-width:801px) {
-    margin-top: calc(100% * 0.14);
-  }
+    .control-group {
 
-    .number-dial {
-      display: inline-block;
-      margin-top: calc(100% * 0.02);
-      margin-left: 0.5em;
-      margin-right: 0.5em;
+      .number-dial {
+        display: inline-block;
 
-      .number-unit {
-        width: 48px;
+        .number-unit {
 
-        .increment, .decrement {
-          text-align: center;
-          color: $increment;
-        }
+          .increment, .decrement {
+            text-align: center;
+            color: $increment;
+            line-height: $font-size;
+            border: 1px solid rgba(0,0,0,0);
+            border-radius: 4px;
+          }
 
-        .increment:active, .decrement:active {
-          color: $increment-active;
-        }
+          .increment:active, .decrement:active {
+            color: $increment-active;
+            border: 1px solid $increment-active;
+          }
 
-        .increment.disabled:active, .decrement.disabled:active {
-          color: $increment-disabled;
-        }
+          .increment.disabled:active, .decrement.disabled:active {
+            color: $increment-disabled;
+            border: 1px solid $increment-disabled;
+          }
 
-        .value {
-          text-align: center;
+          .value {
+            width: 1.25em;
+            text-align: center;
+          }
         }
       }
 
-      .number-unit .value, .delimiter {
+      .number-unit .value {
         font-family: 'ItimRegular';
         font-size: $font-size;
         color: $text-fill;
@@ -62,43 +62,51 @@ number-dials {
           -1px -1px 1px $text-stroke,
           -1px  1px 1px $text-stroke,
            1px -1px 1px $text-stroke,
-           1px  1px 1px $text-stroke
-      }
-
-      .number-unit, .delimiter {
-        display: inline-block;
-      }
-
-      .delimiter {
-        position: relative;
-        top: -0.50em;
+           1px  1px 1px $text-stroke;
       }
     }
   }
 
   .controls-side {
+    position: relative;
+    top: -$font-size;
     display: inline-block;
+    margin: 0;
+    padding: 0;
   }
 
   .control {
-    position: relative;
-    top: -$font-size * 0.6;
+    line-height: $font-size;
     display: inline-block;
-    padding: 0.5em;
     width: 4em;
-    box-sizing: content-box;
-    color: $control-text;
-    border: 1px solid $control-stroke;
+    border: 1px solid rgba(0,0,0,0);
+  }
+
+  .control.grow {
+    color: $grow;
+  }
+
+  .control.grow:active {
+    color: $grow-active;
+    border: 1px solid $grow-active;
+  }
+
+  .control.shrink {
+    color: $shrink;
+  }
+
+  .control.shrink:active {
+    color: $shrink-active;
+    border: 1px solid $shrink-active
   }
 
   .control:active {
-    background-color: $control-fill-active;
-    border: 1px solid $control-stroke-active;
+    color: $grow-active;
+    border: 1px solid $grow-active;
   }
 
   .control.disabled:active {
-    color: $control-text-disabled;
-    background-color: $control-fill-disabled;
-    border: 1px solid $control-stroke-disabled;
+    color: $control-disabled;
+    border: 1px solid $control-disabled;
   }
 }
