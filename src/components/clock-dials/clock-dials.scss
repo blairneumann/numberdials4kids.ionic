@@ -55,10 +55,16 @@ clock-dials {
 
       .increment, .decrement {
         text-align: center;
-        color: $increment;
         line-height: $font-size;
         border: 1px solid rgba(0,0,0,0);
         border-radius: 4px;
+
+        color: $increment;
+        text-shadow:
+          -1px -1px 0px white,
+          -1px  1px 0px white,
+           1px -1px 0px white,
+           1px  1px 0px white;
       }
 
       .increment:active, .decrement:active {
