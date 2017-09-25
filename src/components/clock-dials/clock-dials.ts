@@ -11,18 +11,20 @@ export class ClockDialsComponent implements OnInit {
   private _model: ClockDials;
   private _parent: ClockPage;
   private _resizeTimeout: any;
+  private _heartbeat: any;
 
   constructor() {
     this._model = new ClockDials({ is24hour: false });
   }
 
   ngOnInit() {
-    // 12:34
-    this._model.dial.hours.value = 12;
-    this._model.dial.minutes10s.value = 3;
-    this._model.dial.minutes1s.value = 4;
+    this.value = new Date().toTimeString();
 
     this.onWindowResize();
+
+    this._heartbeat = setInterval(() => {
+      this.checkTheTime();
+    }, 5000);
   }
 
   @HostListener('window:resize') onWindowResize() {
@@ -44,6 +46,29 @@ export class ClockDialsComponent implements OnInit {
 
   get value(): string {
     return this._model.value;
+  }
+
+  get is24hour(): boolean {
+    return this._model.is24hour;
+  }
+
+  set value(value: string) {
+    let values = value.split(':');
+
+    values[0] = (parseInt(values[0]) % 12).toString();
+    if (values[0] === '0' && !this.is24hour) values[0] = '12';
+
+    this._model.value = values.join(':');
+  }
+
+  private checkTheTime() {
+    let now = new Date().toLocaleTimeString().split(':');
+    let value = this.value.split(':');
+
+    // hours are the same && minutes are one behind
+    if (now[0] == value[0] && parseInt(now[1]) == (parseInt(value[1]) + 1)) {
+      this._model.dial.minutes1s.increment();
+    }
   }
 
   private toModelIndex(idx: number) {
