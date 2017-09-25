@@ -36,10 +36,16 @@ export class BasePage implements OnInit {
     this._subDisconnect = this.network.onDisconnect().subscribe(() => {
       this._online = false;
     });
+  }
 
+  ionViewDidLoad() {
     setTimeout(() => {
-      this._online = this.network.type != 'none';
-    }, 3000);
+      this.checkOnline();
+    }, 2000);
+  }
+
+  protected checkOnline() {
+    this._online = !this.network.type || this.network.type != 'none';
   }
 
   get online(): boolean {
