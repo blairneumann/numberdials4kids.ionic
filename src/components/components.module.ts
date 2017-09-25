@@ -6,14 +6,12 @@ import { ClockDialsComponent } from './clock-dials/clock-dials';
 	declarations: [
 		NumberDialsComponent,
     ClockDialsComponent,
-    ClockDialsComponent,
 	],
 	imports: [],
 	exports: [
 		NumberDialsComponent,
     ClockDialsComponent,
-    ClockDialsComponent,
 	]
 })
 
-export class ComponentsModule {}
+export class ComponentsModule { }
