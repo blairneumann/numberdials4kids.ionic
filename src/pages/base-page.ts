@@ -2,7 +2,7 @@ import { OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import { Network } from '@ionic-native/network';
 import { SpeechProvider } from '../providers/speech/speech';
-import { GoPlayPage } from './go-play/go-play';
+// import { GoPlayPage } from './go-play/go-play';
 
 const IconPlay = 'play';
 const IconPause = 'pause';
