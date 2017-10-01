@@ -96,7 +96,9 @@ export class ClockDials {
   set value(value: string) {
     let values = value.split(':');
 
-    this.dial.hours.value = this.is24hour ? parseInt(values[0]) : (parseInt(values[0]) % 12);
+    let hours = parseInt(values[0]);
+    this.dial.hours.value = (hours <= 12 || this.is24hour && hours < 24) ? hours : (hours % 12);
+    if (this.dial.hours.value === 0 && !this.is24hour) this.dial.hours.value = 12;
     this.dial.minutes10s.value = parseInt(values[1].charAt(0));
     this.dial.minutes1s.value = parseInt(values[1].charAt(1));
   }
