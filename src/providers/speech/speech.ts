@@ -48,10 +48,6 @@ export class SpeechProvider {
     }
   }
 
-  warmup(): Promise<string> {
-    return this.cache.warmup().catch(error => console.log('warmup', error));
-  }
-
   play(type: string, value: string) {
     this._status = SpeechStatus.GetURL;
     this.cache.get(type, value).then(uri => {
@@ -119,4 +115,19 @@ export class SpeechProvider {
     }
   }
 
+  warmup() {
+    this.cache.warmup().then(success => {
+      console.log('speech cache warmed up: '+ success);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  clear() {
+    this.cache.clear().then(success => {
+      console.log('speech cache cleared: '+ success);
+    }).catch(error => {
+      console.error(error);
+    })
+  }
 }
