@@ -24,7 +24,7 @@ export class ClockDialsComponent implements OnInit {
 
     this._heartbeat = setInterval(() => {
       this.checkTheTime();
-    }, 5000);
+    }, 60000);
   }
 
   @HostListener('window:resize') onWindowResize() {
