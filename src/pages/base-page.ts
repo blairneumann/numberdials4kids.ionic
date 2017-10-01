@@ -31,10 +31,12 @@ export class BasePage implements OnInit {
 
     this._subConnect = this.network.onConnect().subscribe(() => {
       this._online = true;
+      this.cd.detectChanges();
     });
 
     this._subDisconnect = this.network.onDisconnect().subscribe(() => {
       this._online = false;
+      this.cd.detectChanges();
     });
   }
 
@@ -46,6 +48,7 @@ export class BasePage implements OnInit {
 
   protected checkOnline() {
     this._online = !this.network.type || this.network.type != 'none';
+    this.cd.detectChanges();
   }
 
   get online(): boolean {
