@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, ModalController } from 'ionic-angular';
 import { Network } from '@ionic-native/network';
 import { SpeechProvider } from '../../providers/speech/speech';
@@ -18,7 +18,6 @@ export class NumberPage extends BasePage {
       protected network: Network, protected speech: SpeechProvider, protected cd: ChangeDetectorRef) {
     super(navCtrl, modalCtrl, network, speech, cd);
   }
-
 
   get type(): string {
     return 'number';
