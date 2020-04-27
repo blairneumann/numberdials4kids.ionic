@@ -10,21 +10,6 @@ Splash Screen|Home Screen
 --|--
 <img src="/../screenshots/img/SplashScreen.png?raw=true" />|<img src="/../screenshots/img/Home.png?raw=true" />
 
-<table>
-  <tr>
-    <td  style="text-align:center">Splash Screen</td>
-    <td  style="text-align:center">Home Screen</td>
-  </tr>
-  <tr>
-    <td><img src="/../screenshots/img/SplashScreen.png?raw=true" /></td>
-    <td><img src="/../screenshots/img/Home.png?raw=true" /></td>
-  </tr>
-  <tr>
-    <td  style="text-align:center">Numbers UX</td>
-    <td  style="text-align:center">Clock UX</td>
-  </tr>
-  <tr>
-    <td><img src="/../screenshots/img/Numbers.png?raw=true" /></td>
-    <td><img src="/../screenshots/img/Clock.png?raw=true" /></td>
-  </tr>
-</table>
+Numbers UX|Clock UX
+--|--
+<img src="/../screenshots/img/Numbers.png?raw=true" />|<img src="/../screenshots/img/Clock.png?raw=true" />
