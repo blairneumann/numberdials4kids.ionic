@@ -6,6 +6,10 @@ This project takes the [Number Dials 4 Kids](https://github.com/blairneumann/num
 
 ## Screenshots
 
+Splash Screen|Home Screen
+--|--
+<img src="/../screenshots/img/SplashScreen.png?raw=true" />|<img src="/../screenshots/img/Home.png?raw=true" />
+
 <table>
   <tr>
     <td  style="text-align:center">Splash Screen</td>
