@@ -1,26 +1,14 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Number Dials 4 Kids
+A kid-friendly mobile app for pre-readers to learn basics about numbers and their relationships.
 
-## How to use this template
+## Overview
+This project takes the [Number Dials 4 Kids](https://github.com/blairneumann/numberdials4kids.angular) concept and turns it into a kid-friendly mobile app. This project also adds an interactive Clock experience and a Play button which speaks the current number.
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+## Screenshots
+![Splash Screen](/img/SplashScreen.png "Splash Screen")
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+![Home Screen](/img/Home.png "Home Screen")
 
-### With the Ionic CLI:
+![Numbers UX](/img/Numbers.png "Numbers UX")
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start mySideMenu sidemenu
-```
-
-Then, to run it, cd into `mySideMenu` and run:
-
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
-
-Substitute ios for android if not on a Mac.
-
+![Clock UX](/img/Clock.png "Clock UX")
